@@ -41,13 +41,22 @@ class AfterChangeNumberRule extends RpdeRule {
   }
 
   validate(node) {
-    if (typeof node.data !== 'object') {
+    if (
+      typeof node.data !== 'object'
+      || node.isLastPage
+    ) {
       return;
     }
     const afterChangeNumber = UrlHelper.getParam('afterChangeNumber', node.data.next, node.url);
     if (afterChangeNumber !== null) {
       const modified = jp.query(node.data, '$.items[0].modified');
-      if (typeof modified !== 'number') {
+      if (
+        modified.length === 0
+        || (
+          typeof modified[0] !== 'number'
+          && !modified[0].match(/^[1-9][0-9]*$/)
+        )
+      ) {
         node.log.addPageError(
           node.url,
           this.createError(

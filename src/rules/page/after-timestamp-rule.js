@@ -34,13 +34,22 @@ class AfterTimestampRule extends RpdeRule {
   }
 
   validate(node) {
-    if (typeof node.data !== 'object') {
+    if (
+      typeof node.data !== 'object'
+      || node.isLastPage
+    ) {
       return;
     }
     const afterTimestamp = UrlHelper.getParam('afterTimestamp', node.data.next, node.url);
     if (afterTimestamp !== null) {
       const modified = jp.query(node.data, '$.items[0].modified');
-      if (typeof modified === 'number') {
+      if (
+        modified.length === 0
+        || (
+          typeof modified[0] !== 'number'
+          && !modified[0].match(/^[1-9][0-9]*$/)
+        )
+      ) {
         if (!afterTimestamp.match(/^[1-9][0-9]*$/)) {
           node.log.addPageError(
             node.url,

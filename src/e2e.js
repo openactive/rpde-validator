@@ -4,7 +4,8 @@ import { RpdeValidator } from './index';
 const urls = [
   // 'https://activenewham-openactive.herokuapp.com/',
   // 'https://www.better.org.uk/odi/sessions.json',
-  'http://google.com',
+  // 'http://google.com',
+  'https://online.activelifeltd.co.uk/openactive/api/sessions',
 ];
 
 for (const url of urls) {
