@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { URL } from 'url';
 
 class UrlHelper {
   static deriveUrl(url, base) {

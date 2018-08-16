@@ -1,7 +1,7 @@
 import {
   ValidationErrorCategory,
   ValidationErrorSeverity,
-} from 'openactive-data-model-validator';
+} from '@openactive/data-model-validator';
 import jp from 'jsonpath';
 import RpdeRule from '../../rpde-rule';
 import RpdeErrorType from '../../errors/rpde-error-type';
@@ -26,6 +26,9 @@ const DeletedItemsRule = class extends RpdeRule {
   }
 
   validate(node) {
+    if (typeof node.data !== 'object') {
+      return;
+    }
     if (!this.deletedItemsFound) {
       const deleted = jp.query(node.data, '$..items[?(@.state=="deleted")]');
       if (deleted.length > 0) {

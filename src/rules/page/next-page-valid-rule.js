@@ -1,7 +1,7 @@
 import {
   ValidationErrorCategory,
   ValidationErrorSeverity,
-} from 'openactive-data-model-validator';
+} from '@openactive/data-model-validator';
 import RpdeRule from '../../rpde-rule';
 import RpdeErrorType from '../../errors/rpde-error-type';
 import UrlHelper from '../../helpers/url-helper';
@@ -28,6 +28,9 @@ const NextPageValidRule = class extends RpdeRule {
   }
 
   validate(node) {
+    if (typeof node.data !== 'object') {
+      return;
+    }
     // The next URL should be an absolute not relative URL
     const nextUrlRaw = UrlHelper.deriveUrl(node.data.next, node.url);
 

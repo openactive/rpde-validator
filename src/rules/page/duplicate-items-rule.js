@@ -1,7 +1,7 @@
 import {
   ValidationErrorCategory,
   ValidationErrorSeverity,
-} from 'openactive-data-model-validator';
+} from '@openactive/data-model-validator';
 import jp from 'jsonpath';
 import RpdeRule from '../../rpde-rule';
 import RpdeErrorType from '../../errors/rpde-error-type';
@@ -29,6 +29,9 @@ const DuplicateItemsRule = class extends RpdeRule {
   }
 
   validate(node) {
+    if (typeof node.data !== 'object') {
+      return;
+    }
     const ids = jp.query(node.data, '$.items[*].id');
     for (const id of ids) {
       if (this.itemMap.indexOf(id) >= 0) {

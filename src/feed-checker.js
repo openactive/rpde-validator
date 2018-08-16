@@ -1,10 +1,11 @@
+import { URL } from 'url';
 import FeedLog from './feed-log';
 import RpdeNode from './rpde-node';
 import Rules from './rules';
 import UrlHelper from './helpers/url-helper';
 
 class FeedChecker {
-  constructor(url) {
+  constructor(url, logCallback) {
     this.url = url;
     this.isLastPage = false;
     this.pageIndex = 0;
@@ -16,6 +17,7 @@ class FeedChecker {
     this.pageRules = [];
     this.preLastPageRules = [];
     this.lastPageRules = [];
+    this.logCallback = logCallback;
 
     for (let index = 0; index < Rules.http.length; index += 1) {
       this.httpRules.push(new Rules.http[index]());
@@ -31,6 +33,27 @@ class FeedChecker {
     }
   }
 
+  logMessage(msg, extra = {}) {
+    if (typeof this.logCallback === 'function') {
+      this.logCallback(
+        Object.assign(
+          {
+            percentage: this.percentageComplete(),
+            verbosity: 1,
+          },
+          extra,
+          {
+            message: msg,
+          },
+        ),
+      );
+    }
+  }
+
+  percentageComplete() {
+    return (this.pageIndex / (this.pageTotal + 1)) * 100;
+  }
+
   addError(err) {
     this.log.addError(err);
   }
@@ -39,9 +62,14 @@ class FeedChecker {
     const url = urlOverride || this.url;
     return this.load(url)
       .then((json) => {
-        const nextUrl = UrlHelper.deriveUrl(json.next, url);
+        const nextUrl = typeof json === 'object' ? UrlHelper.deriveUrl(json.next, url) : undefined;
 
-        if (nextUrl === url && json.items.length === 0) {
+        if (
+          nextUrl === url
+          && typeof json === 'object'
+          && json.items instanceof Array
+          && json.items.length === 0
+        ) {
           this.isLastPage = true;
         }
 
@@ -53,15 +81,24 @@ class FeedChecker {
           this.isLastPage,
         );
 
+        this.logMessage(`Applying page rules to ${url}`);
+
         for (const rule of this.pageRules) {
+          this.logMessage(
+            `Applying rule ${rule.meta.name} to ${url}`,
+            {
+              verbosity: 2,
+            },
+          );
           rule.validate(node);
         }
 
-        this.lastTimestamp = UrlHelper.getParam('afterTimestamp', json.next, url);
-        this.lastChangeNumber = UrlHelper.getParam('afterChangeNumber', json.next, url);
+
+        this.lastTimestamp = typeof json === 'object' ? UrlHelper.getParam('afterTimestamp', json.next, url) : null;
+        this.lastChangeNumber = typeof json === 'object' ? UrlHelper.getParam('afterChangeNumber', json.next, url) : null;
 
         this.pageIndex += 1;
-        if (!this.isLastPage && this.pageIndex < this.pageTotal) {
+        if (typeof json === 'object' && !this.isLastPage && this.pageIndex < this.pageTotal) {
           return this.walk(nextUrl);
         }
 
@@ -94,7 +131,15 @@ class FeedChecker {
       this.log,
     );
 
+    this.logMessage(`Applying pre last page rules to ${this.url}`);
+
     for (const rule of this.preLastPageRules) {
+      this.logMessage(
+        `Applying rule ${rule.meta.name}`,
+        {
+          verbosity: 2,
+        },
+      );
       rule.validate(preNode);
     }
 
@@ -132,7 +177,15 @@ class FeedChecker {
             true,
           );
 
+          this.logMessage(`Applying last page rules to ${lastPageUrl}`);
+
           for (const rule of this.lastPageRules) {
+            this.logMessage(
+              `Applying rule ${rule.meta.name} to ${lastPageUrl}`,
+              {
+                verbosity: 2,
+              },
+            );
             rule.validate(lastPageNode);
           }
 
@@ -149,7 +202,15 @@ class FeedChecker {
               );
               nextNode.previousNode = lastPageNode;
 
+              this.logMessage(`Applying last page rules to ${nextUrlRaw}`);
+
               for (const rule of this.lastPageRules) {
+                this.logMessage(
+                  `Applying rule ${rule.meta.name} to ${nextUrlRaw}`,
+                  {
+                    verbosity: 2,
+                  },
+                );
                 rule.validate(nextNode);
               }
             });
@@ -159,16 +220,26 @@ class FeedChecker {
   }
 
   load(url) {
+    this.logMessage(`Loading ${url}...`);
     this.log.addPage(url);
     return UrlHelper.fetch(url).then(
       (res) => {
+        this.logMessage(`Loaded ${url}`);
         const node = new RpdeNode(
           url,
           res,
           this.log,
         );
 
+        this.logMessage(`Applying HTTP rules to ${url}`);
+
         for (const rule of this.httpRules) {
+          this.logMessage(
+            `Applying rule ${rule.meta.name} to ${url}`,
+            {
+              verbosity: 2,
+            },
+          );
           rule.validate(node);
         }
 

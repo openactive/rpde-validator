@@ -1,7 +1,7 @@
 import {
   ValidationErrorCategory,
   ValidationErrorSeverity,
-} from 'openactive-data-model-validator';
+} from '@openactive/data-model-validator';
 import RpdeRule from '../../rpde-rule';
 import RpdeErrorType from '../../errors/rpde-error-type';
 
@@ -25,6 +25,9 @@ const MinimumItemsRule = class extends RpdeRule {
   }
 
   validate(node) {
+    if (typeof node.data !== 'object') {
+      return;
+    }
     if (!node.isLastPage && this.previousPageErrored) {
       node.log.addPageError(
         node.url,

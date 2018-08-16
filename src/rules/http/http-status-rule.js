@@ -1,7 +1,7 @@
 import {
   ValidationErrorCategory,
   ValidationErrorSeverity,
-} from 'openactive-data-model-validator';
+} from '@openactive/data-model-validator';
 import RpdeRule from '../../rpde-rule';
 import RpdeErrorType from '../../errors/rpde-error-type';
 

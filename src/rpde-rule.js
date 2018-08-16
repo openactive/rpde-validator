@@ -1,6 +1,6 @@
 import {
   ValidationError,
-} from 'openactive-data-model-validator';
+} from '@openactive/data-model-validator';
 
 class RpdeRule {
   constructor() {

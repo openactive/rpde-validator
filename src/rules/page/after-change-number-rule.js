@@ -1,7 +1,7 @@
 import {
   ValidationErrorCategory,
   ValidationErrorSeverity,
-} from 'openactive-data-model-validator';
+} from '@openactive/data-model-validator';
 import jp from 'jsonpath';
 import RpdeRule from '../../rpde-rule';
 import RpdeErrorType from '../../errors/rpde-error-type';
@@ -41,6 +41,9 @@ class AfterChangeNumberRule extends RpdeRule {
   }
 
   validate(node) {
+    if (typeof node.data !== 'object') {
+      return;
+    }
     const afterChangeNumber = UrlHelper.getParam('afterChangeNumber', node.data.next, node.url);
     if (afterChangeNumber !== null) {
       const modified = jp.query(node.data, '$.items[0].modified');

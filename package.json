@@ -10,7 +10,7 @@
     "validator",
     "json"
   ],
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "engines": {
     "node": "8.11.3"
   },
@@ -23,6 +23,8 @@
   },
   "license": "MIT",
   "scripts": {
+    "build": "babel src --out-dir dist",
+    "postinstall": "npm run build",
     "lint": "eslint \"src/**/*.js\"",
     "pretest": "npm run lint",
     "test": "npm run test-no-lint",
@@ -38,8 +40,8 @@
     "jasmine": "^3.2.0"
   },
   "dependencies": {
+    "@openactive/data-model-validator": "github:openactive/data-model-validator",
     "jsonpath": "^1.0.0",
-    "node-fetch": "^2.2.0",
-    "openactive-data-model-validator": "github:openactive/data-model-validator"
+    "node-fetch": "^2.2.0"
   }
 }
