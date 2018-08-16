@@ -2,6 +2,9 @@
 
 The OpenActive RPDE validator library.
 
+[![Build Status](https://travis-ci.org/openactive/rpde-validator.svg?branch=master)](https://travis-ci.org/openactive/rpde-validator)
+[![Known Vulnerabilities](https://snyk.io/test/github/openactive/rpde-validator/badge.svg)](https://snyk.io/test/github/openactive/rpde-validator)
+
 ## Introduction
 
 This library allows developers to validate RPDE feeds against the latest [Realtime Paged Data Exchange](https://www.openactive.io/realtime-paged-data-exchange/) specification.

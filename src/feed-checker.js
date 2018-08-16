@@ -98,7 +98,12 @@ class FeedChecker {
         this.lastChangeNumber = typeof json === 'object' ? UrlHelper.getParam('afterChangeNumber', json.next, url) : null;
 
         this.pageIndex += 1;
-        if (typeof json === 'object' && !this.isLastPage && this.pageIndex < this.pageTotal) {
+        if (
+          typeof json === 'object'
+          && nextUrl !== url
+          && UrlHelper.isUrl(nextUrl)
+          && this.pageIndex < this.pageTotal
+        ) {
           return this.walk(nextUrl);
         }
 
@@ -164,7 +169,7 @@ class FeedChecker {
     }
 
     if (paramKey) {
-      const value = this[paramKey] * 1000;
+      const value = this[paramKey] * 10;
       const currentUrl = new URL(this.url);
       const lastPageUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlKey}=${value}`;
       return this.load(lastPageUrl)
@@ -189,31 +194,34 @@ class FeedChecker {
             rule.validate(lastPageNode);
           }
 
-          const nextUrlRaw = UrlHelper.deriveUrl(json.next, lastPageUrl);
+          if (typeof json === 'object' && typeof json.next !== 'undefined') {
+            const nextUrlRaw = UrlHelper.deriveUrl(json.next, lastPageUrl);
 
-          return this.load(nextUrlRaw)
-            .then((nextJson) => {
-              const nextNode = new RpdeNode(
-                nextUrlRaw,
-                nextJson,
-                this.log,
-                this.pageIndex,
-                true,
-              );
-              nextNode.previousNode = lastPageNode;
-
-              this.logMessage(`Applying last page rules to ${nextUrlRaw}`);
-
-              for (const rule of this.lastPageRules) {
-                this.logMessage(
-                  `Applying rule ${rule.meta.name} to ${nextUrlRaw}`,
-                  {
-                    verbosity: 2,
-                  },
+            return this.load(nextUrlRaw)
+              .then((nextJson) => {
+                const nextNode = new RpdeNode(
+                  nextUrlRaw,
+                  nextJson,
+                  this.log,
+                  this.pageIndex,
+                  true,
                 );
-                rule.validate(nextNode);
-              }
-            });
+                nextNode.previousNode = lastPageNode;
+
+                this.logMessage(`Applying last page rules to ${nextUrlRaw}`);
+
+                for (const rule of this.lastPageRules) {
+                  this.logMessage(
+                    `Applying rule ${rule.meta.name} to ${nextUrlRaw}`,
+                    {
+                      verbosity: 2,
+                    },
+                  );
+                  rule.validate(nextNode);
+                }
+              });
+          }
+          return null;
         });
     }
     return null;

@@ -25,7 +25,12 @@ const NoLastPageItemsRule = class extends RpdeRule {
   }
 
   validate(node) {
-    if (node.data.items.length > 0) {
+    if (
+      typeof node.data !== 'object'
+      || typeof node.data.items === 'undefined'
+      || !(node.data.items instanceof Array)
+      || node.data.items.length > 0
+    ) {
       node.log.addPageError(
         node.url,
         this.createError(
