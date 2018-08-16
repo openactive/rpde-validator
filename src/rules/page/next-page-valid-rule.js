@@ -32,7 +32,10 @@ const NextPageValidRule = class extends RpdeRule {
       return;
     }
     // The next URL should be an absolute not relative URL
-    const nextUrlRaw = UrlHelper.deriveUrl(node.data.next, node.url);
+    let nextUrlRaw;
+    if (typeof node.data.next === 'string') {
+      nextUrlRaw = UrlHelper.deriveUrl(node.data.next, node.url);
+    }
 
     if (!UrlHelper.isUrl(nextUrlRaw)) {
       node.log.addPageError(

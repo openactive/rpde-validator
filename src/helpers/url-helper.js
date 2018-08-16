@@ -3,6 +3,9 @@ import { URL } from 'url';
 
 class UrlHelper {
   static deriveUrl(url, base) {
+    if (typeof url !== 'string') {
+      return '';
+    }
     let urlRaw = url;
     if (!urlRaw.match(/^http/)) {
       if (urlRaw.match(/^\//)) {
@@ -29,6 +32,9 @@ class UrlHelper {
   }
 
   static isUrl(url) {
+    if (typeof url !== 'string') {
+      return false;
+    }
     return UrlHelper.URL_REGEX.test(url);
   }
 }

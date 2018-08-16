@@ -26,7 +26,11 @@ const LastPageUrlIsSelfRule = class extends RpdeRule {
 
   validate(node) {
     if (typeof node.previousNode !== 'undefined') {
-      if (JSON.stringify(node.data) !== JSON.stringify(node.previousNode.data)) {
+      if (
+        typeof node.data !== 'undefined'
+        && typeof node.previousNode.data !== 'undefined'
+        && JSON.stringify(node.data) !== JSON.stringify(node.previousNode.data)
+      ) {
         node.log.addPageError(
           node.url,
           this.createError(
