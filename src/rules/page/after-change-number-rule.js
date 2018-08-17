@@ -10,7 +10,6 @@ import UrlHelper from '../../helpers/url-helper';
 class AfterChangeNumberRule extends RpdeRule {
   constructor() {
     super();
-    this.lastTimestamp = null;
     this.meta = {
       name: 'AfterChangeNumberRule',
       description: 'If afterChangeNumber is used it must be an integer and "modified" must be an integer',
@@ -80,7 +79,21 @@ class AfterChangeNumberRule extends RpdeRule {
           ),
         );
       }
-      if (!node.isLastPage && node.pageIndex > 0 && afterChangeNumber <= this.lastChangeNumber) {
+      let compareAfterChangeNumber = afterChangeNumber;
+      let compareLastChangeNumber = this.lastChangeNumber;
+      if (
+        typeof compareAfterChangeNumber === 'string'
+        && compareAfterChangeNumber.match(/^[1-9][0-9]*$/)
+      ) {
+        compareAfterChangeNumber *= 1;
+      }
+      if (
+        typeof compareLastChangeNumber === 'string'
+        && compareLastChangeNumber.match(/^[1-9][0-9]*$/)
+      ) {
+        compareLastChangeNumber *= 1;
+      }
+      if (!node.isLastPage && node.pageIndex > 0 && compareAfterChangeNumber <= compareLastChangeNumber) {
         node.log.addPageError(
           node.url,
           this.createError(
