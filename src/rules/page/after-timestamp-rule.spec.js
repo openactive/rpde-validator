@@ -42,6 +42,25 @@ describe('AfterTimestampRule', () => {
     expect(log.addPageError).not.toHaveBeenCalled();
   });
 
+  it('should raise a warning when modified is numeric and a string', () => {
+    json.items[0].modified = '1534485464';
+    const node = new RpdeNode(
+      url,
+      json,
+      log,
+      1,
+      false,
+    );
+    rule.lastTimestamp = 1534480464;
+
+    rule.validate(node);
+
+    expect(log.addPageError).toHaveBeenCalled();
+    expect(log.pages.length).toBe(1);
+    expect(log.pages[0].errors.length).toBe(1);
+    expect(log.pages[0].errors[0].type).toBe(RpdeErrorType.INVALID_TYPE);
+  });
+
   it('should raise an error when the timestamp is used without an afterId', () => {
     json.next = `${url}?afterTimestamp=1534482464`;
     const node = new RpdeNode(
@@ -96,6 +115,26 @@ describe('AfterTimestampRule', () => {
     expect(log.pages.length).toBe(1);
     expect(log.pages[0].errors.length).toBe(1);
     expect(log.pages[0].errors[0].type).toBe(RpdeErrorType.INVALID_TYPE);
+  });
+
+  it('should raise a warning when the timestamp is not numeric and modified is not numeric', () => {
+    json.next = `${url}?afterTimestamp=2018-01-01T00:00:00&afterId=123`;
+    json.items[0].modified = '2018-01-01T00:00:00';
+    const node = new RpdeNode(
+      url,
+      json,
+      log,
+      0,
+      false,
+    );
+
+    rule.validate(node);
+
+    expect(log.addPageError).toHaveBeenCalled();
+    expect(log.pages.length).toBe(1);
+    expect(log.pages[0].errors.length).toBe(2);
+    expect(log.pages[0].errors[0].type).toBe(RpdeErrorType.INVALID_TYPE);
+    expect(log.pages[0].errors[1].type).toBe(RpdeErrorType.INVALID_TYPE);
   });
 
   it('should raise an error when afterTimestamp is not incrementing', () => {

@@ -21,7 +21,7 @@ class LastPageCheckRule extends RpdeRule {
         },
         lastTimestamp: {
           description: 'Raises a failure if the last page check cannot be carried out due to "afterTimestamp" not being an integer',
-          message: 'Last page check could not be completed, as "modified" and "afterTimestamp" values should be integers. It is recommend that these are integers to be compatible with future version of RPDE.',
+          message: 'Last page check could not be completed, as "modified" and "afterTimestamp" values should be integers. It is recommended that these are integers to be compatible with future version of RPDE.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.NO_LAST_PAGE_CHECK,
