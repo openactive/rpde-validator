@@ -1,4 +1,3 @@
-import ValidJsonObjectRule from './page/valid-json-object-rule';
 import AfterTimestampRule from './page/after-timestamp-rule';
 import AfterChangeNumberRule from './page/after-change-number-rule';
 import MinimumItemsRule from './page/minimum-items-rule';
@@ -11,12 +10,12 @@ import LastPageUrlIsSelfRule from './last-page/last-page-url-is-self-rule';
 
 import HttpStatusRule from './http/http-status-rule';
 import HttpContentTypeRule from './http/http-content-type-rule';
+import ValidJsonObjectRule from './http/valid-json-object-rule';
 
 import LastPageCheckRule from './pre-last-page/last-page-check-rule';
 
 export default {
   page: [
-    ValidJsonObjectRule,
     AfterTimestampRule,
     AfterChangeNumberRule,
     MinimumItemsRule,
@@ -28,7 +27,6 @@ export default {
     LastPageCheckRule,
   ],
   lastPage: [
-    ValidJsonObjectRule,
     NextPageValidRule,
     NoLastPageItemsRule,
     LastPageUrlIsSelfRule,
@@ -36,5 +34,6 @@ export default {
   http: [
     HttpStatusRule,
     HttpContentTypeRule,
+    ValidJsonObjectRule,
   ],
 };

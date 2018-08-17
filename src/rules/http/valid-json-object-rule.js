@@ -14,9 +14,10 @@ const ValidJsonObjectRule = class extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a failure if the content is not valid JSON',
-          message: '{{url}} did not return a valid JSON object',
+          message: '{{url}} did not return a valid JSON object. The JSON parser returned the following message: "{{error}}"',
           sampleValues: {
             url: 'http://example.org/feed.json',
+            error: 'SyntaxError: Unexpected token , in JSON at position 273',
           },
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
@@ -27,7 +28,22 @@ const ValidJsonObjectRule = class extends RpdeRule {
   }
 
   validate(node) {
-    if (typeof node.data !== 'object') {
+    let data;
+    let error;
+    try {
+      data = JSON.parse(node.data.body);
+    } catch (e) {
+      error = `${e.name}: ${e.message}`;
+      data = null;
+    }
+    if (typeof data !== 'object' || data === null) {
+      if (typeof error === 'undefined') {
+        if (typeof data !== 'object') {
+          error = `Returned data is of type "${typeof data}", should be of type "object"`;
+        } else {
+          error = `Returned data is null, should be a populated object`;
+        }
+      }
       node.log.addPageError(
         node.url,
         this.createError(
@@ -38,6 +54,7 @@ const ValidJsonObjectRule = class extends RpdeRule {
           },
           {
             url: node.url,
+            error,
           },
         ),
       );

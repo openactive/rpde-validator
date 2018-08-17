@@ -30,6 +30,7 @@ class RpdeRule {
       }
     }
     const error = Object.assign(
+      {},
       extra,
       {
         rule: this.meta.name,
