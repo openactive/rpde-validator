@@ -100,7 +100,7 @@ class FeedChecker {
 
         this.lastTimestamp = UrlHelper.getParam('afterTimestamp', json.next, url);
         this.lastChangeNumber = UrlHelper.getParam('afterChangeNumber', json.next, url);
-        this.lastId = UrlHelper.getParam('afterChangeNumber', json.next, url);
+        this.lastId = UrlHelper.getParam('afterId', json.next, url);
         if (this.firstId === null) {
           this.firstId = this.lastId;
         }
