@@ -16,6 +16,8 @@ const RpdeErrorType = {
   LAST_PAGE_NO_ITEMS: 'last_page_no_items',
   LAST_PAGE_REFERENCE_SELF: 'last_page_reference_self',
   AFTER_ID_WITH_TIMESTAMP: 'after_id_with_timestamp',
+  NO_MODELLING_DATA: 'no_modelling_data',
+  HAS_MODELLING_DATA: 'has_modelling_data',
 };
 
 export default Object.freeze(RpdeErrorType);
