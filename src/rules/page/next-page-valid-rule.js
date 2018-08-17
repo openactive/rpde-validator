@@ -15,9 +15,9 @@ const NextPageValidRule = class extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a failure if the next parameter is not a valid URL',
-          message: 'Next page parameter "{{url}}" should be a valid URL',
+          message: 'Next page parameter "{{url}}" should be a valid absolute URL',
           sampleValues: {
-            url: 'http://example.org/feed.json',
+            url: '/feed.json',
           },
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
@@ -31,13 +31,12 @@ const NextPageValidRule = class extends RpdeRule {
     if (typeof node.data !== 'object') {
       return;
     }
-    // The next URL should be an absolute not relative URL
-    let nextUrlRaw;
-    if (typeof node.data.next === 'string') {
-      nextUrlRaw = UrlHelper.deriveUrl(node.data.next, node.url);
-    }
 
-    if (!UrlHelper.isUrl(nextUrlRaw)) {
+    // The next URL should be an absolute not relative URL
+    if (
+      typeof node.data.next !== 'string'
+      || !UrlHelper.isUrl(node.data.next)
+    ) {
       node.log.addPageError(
         node.url,
         this.createError(

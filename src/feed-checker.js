@@ -64,11 +64,14 @@ class FeedChecker {
     const url = urlOverride || this.url;
     return this.load(url)
       .then((json) => {
-        const nextUrl = typeof json === 'object' ? UrlHelper.deriveUrl(json.next, url) : undefined;
+        if (typeof json !== 'object' || json === null) {
+          return null;
+        }
+
+        const nextUrl = UrlHelper.deriveUrl(json.next, url);
 
         if (
           nextUrl === url
-          && typeof json === 'object'
           && json.items instanceof Array
           && json.items.length === 0
         ) {
@@ -95,23 +98,16 @@ class FeedChecker {
           rule.validate(node);
         }
 
-        if (typeof json === 'object') {
-          this.lastTimestamp = UrlHelper.getParam('afterTimestamp', json.next, url);
-          this.lastChangeNumber = UrlHelper.getParam('afterChangeNumber', json.next, url);
-          this.lastId = UrlHelper.getParam('afterChangeNumber', json.next, url);
-          if (this.firstId === null) {
-            this.firstId = this.lastId;
-          }
-        } else {
-          this.lastTimestamp = null;
-          this.lastChangeNumber = null;
-          this.lastId = null;
+        this.lastTimestamp = UrlHelper.getParam('afterTimestamp', json.next, url);
+        this.lastChangeNumber = UrlHelper.getParam('afterChangeNumber', json.next, url);
+        this.lastId = UrlHelper.getParam('afterChangeNumber', json.next, url);
+        if (this.firstId === null) {
+          this.firstId = this.lastId;
         }
 
         this.pageIndex += 1;
         if (
-          typeof json === 'object'
-          && nextUrl !== url
+          nextUrl !== url
           && UrlHelper.isUrl(nextUrl)
           && this.pageIndex < this.pageTotal
         ) {
@@ -244,12 +240,21 @@ class FeedChecker {
   load(url) {
     this.logMessage(`Loading ${url}...`);
     this.log.addPage(url);
+    let res;
     return UrlHelper.fetch(url).then(
-      (res) => {
+      (response) => {
         this.logMessage(`Loaded ${url}`);
+        res = response;
+        return res.text();
+      },
+    ).then(
+      (body) => {
         const node = new RpdeNode(
           url,
-          res,
+          {
+            res,
+            body,
+          },
           this.log,
         );
 
@@ -265,7 +270,13 @@ class FeedChecker {
           rule.validate(node);
         }
 
-        return res.json();
+        let json;
+        try {
+          json = JSON.parse(body);
+        } catch (e) {
+          return null;
+        }
+        return json;
       },
     ).catch(
       () => undefined,
