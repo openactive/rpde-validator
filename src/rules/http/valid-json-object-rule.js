@@ -41,7 +41,7 @@ const ValidJsonObjectRule = class extends RpdeRule {
         if (typeof data !== 'object') {
           error = `Returned data is of type "${typeof data}", should be of type "object"`;
         } else {
-          error = `Returned data is null, should be a populated object`;
+          error = 'Returned data is null, should be a populated object';
         }
       }
       node.log.addPageError(
