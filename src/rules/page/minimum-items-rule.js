@@ -9,6 +9,7 @@ const MinimumItemsRule = class extends RpdeRule {
   constructor() {
     super();
     this.previousPageErrored = false;
+    this.previousPageUrl = null;
     this.meta = {
       name: 'MinimumItemsRule',
       description: 'Validates that each page contains at least 500 items',
@@ -25,27 +26,49 @@ const MinimumItemsRule = class extends RpdeRule {
   }
 
   validate(node) {
-    if (typeof node.data !== 'object') {
-      return;
-    }
     if (!node.isLastPage && this.previousPageErrored) {
       node.log.addPageError(
-        node.url,
+        this.previousPageUrl,
         this.createError(
           'default',
           {
             value: node.data,
-            url: node.url,
+            url: this.previousPageUrl,
           },
         ),
       );
     }
 
     this.previousPageErrored = false;
+    this.previousPageUrl = null;
+
+    if (
+      typeof node.data !== 'object'
+      || typeof node.data.items !== 'object'
+      || !(node.data.items instanceof Array)
+    ) {
+      return;
+    }
 
     // Pages should contain at least 500 items (this is a warning rather than an error)
     if (node.data.items.length < 500 && !node.isLastPage) {
       this.previousPageErrored = true;
+      this.previousPageUrl = node.url;
+    }
+  }
+
+  after(node) {
+    if (!node.isLastPage && this.previousPageErrored) {
+      node.log.addPageError(
+        this.previousPageUrl,
+        this.createError(
+          'default',
+          {
+            value: node.data,
+            url: this.previousPageUrl,
+          },
+        ),
+      );
     }
   }
 };

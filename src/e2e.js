@@ -10,8 +10,9 @@ const urls = [
   // 'https://api.clubspark.uk/odi/public/courses',
   // 'http://46.101.27.39/eventslive/api/openactive/events',
   // 'https://playwaze.com/Webservices/Playwazeservice.svc/Groupplay/GetOpenActiveData',
-  'https://bookwhen.com/api/openactive/event_types',
+  // 'https://bookwhen.com/api/openactive/event_types',
   // 'https://www.classfinder.org.uk/api/public/classes',
+  'http://api.letsride.co.uk/public/v1/rides',
 ];
 
 for (const url of urls) {
