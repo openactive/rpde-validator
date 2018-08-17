@@ -4,6 +4,9 @@ import MinimumItemsRule from './page/minimum-items-rule';
 import DeletedItemsRule from './page/deleted-items-rule';
 import DuplicateItemsRule from './page/duplicate-items-rule';
 import NextPageValidRule from './page/next-page-valid-rule';
+import RequiredPropertiesRule from './page/required-properties-rule';
+import RequiredItemPropertiesRule from './page/required-item-properties-rule';
+import RequiredPropertyValuesRule from './page/required-property-values-rule';
 
 import NoLastPageItemsRule from './last-page/no-last-page-items-rule';
 import LastPageUrlIsSelfRule from './last-page/last-page-url-is-self-rule';
@@ -22,6 +25,9 @@ export default {
     DeletedItemsRule,
     DuplicateItemsRule,
     NextPageValidRule,
+    RequiredPropertiesRule,
+    RequiredItemPropertiesRule,
+    RequiredPropertyValuesRule,
   ],
   preLastPage: [
     LastPageCheckRule,
@@ -30,6 +36,9 @@ export default {
     NextPageValidRule,
     NoLastPageItemsRule,
     LastPageUrlIsSelfRule,
+    RequiredPropertiesRule,
+    RequiredItemPropertiesRule,
+    RequiredPropertyValuesRule,
   ],
   http: [
     HttpStatusRule,

@@ -37,7 +37,7 @@ const HttpStatusRule = class extends RpdeRule {
             url: node.url,
           },
           {
-            status: node.data.status,
+            status: node.data.res.status,
           },
         ),
       );
