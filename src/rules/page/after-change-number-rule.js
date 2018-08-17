@@ -85,13 +85,13 @@ class AfterChangeNumberRule extends RpdeRule {
         typeof compareAfterChangeNumber === 'string'
         && compareAfterChangeNumber.match(/^[1-9][0-9]*$/)
       ) {
-        compareAfterChangeNumber = compareAfterChangeNumber * 1;
+        compareAfterChangeNumber *= 1;
       }
       if (
         typeof compareLastChangeNumber === 'string'
         && compareLastChangeNumber.match(/^[1-9][0-9]*$/)
       ) {
-        compareLastChangeNumber = compareLastChangeNumber * 1;
+        compareLastChangeNumber *= 1;
       }
       if (!node.isLastPage && node.pageIndex > 0 && compareAfterChangeNumber <= compareLastChangeNumber) {
         node.log.addPageError(
