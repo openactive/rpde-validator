@@ -12,6 +12,8 @@ class FeedChecker {
     this.pageTotal = 20;
     this.log = new FeedLog(url);
     this.lastTimestamp = null;
+    this.firstId = null;
+    this.lastId = null;
     this.lastChangeNumber = null;
     this.httpRules = [];
     this.pageRules = [];
@@ -93,9 +95,18 @@ class FeedChecker {
           rule.validate(node);
         }
 
-
-        this.lastTimestamp = typeof json === 'object' ? UrlHelper.getParam('afterTimestamp', json.next, url) : null;
-        this.lastChangeNumber = typeof json === 'object' ? UrlHelper.getParam('afterChangeNumber', json.next, url) : null;
+        if (typeof json === 'object') {
+          this.lastTimestamp = UrlHelper.getParam('afterTimestamp', json.next, url);
+          this.lastChangeNumber = UrlHelper.getParam('afterChangeNumber', json.next, url);
+          this.lastId = UrlHelper.getParam('afterChangeNumber', json.next, url);
+          if (this.firstId === null) {
+            this.firstId = this.lastId;
+          }
+        } else {
+          this.lastTimestamp = null;
+          this.lastChangeNumber = null;
+          this.lastId = null;
+        }
 
         this.pageIndex += 1;
         if (
@@ -124,13 +135,11 @@ class FeedChecker {
   }
 
   testLastPage() {
-    let paramKey;
-    let urlKey;
-
     const preNode = new RpdeNode(
       this.url,
       {
         lastTimestamp: this.lastTimestamp,
+        lastId: this.lastId,
         lastChangeNumber: this.lastChangeNumber,
       },
       this.log,
@@ -148,6 +157,9 @@ class FeedChecker {
       rule.validate(preNode);
     }
 
+    const currentUrl = new URL(this.url);
+    let lastPageUrl = `${currentUrl.origin}${currentUrl.pathname}?`;
+    let hasUrl = false;
     if (this.lastTimestamp !== null) {
       if (
         typeof this.lastTimestamp !== 'number'
@@ -155,8 +167,12 @@ class FeedChecker {
       ) {
         return null;
       }
-      paramKey = 'lastTimestamp';
-      urlKey = 'afterTimestamp';
+      const value = this.lastTimestamp * 10;
+      lastPageUrl = `${lastPageUrl}afterTimestamp=${value}`;
+      if (this.firstId !== null) {
+        lastPageUrl = `${lastPageUrl}&afterId=${this.firstId}`;
+      }
+      hasUrl = true;
     } else if (this.lastChangeNumber !== null) {
       if (
         typeof this.lastChangeNumber !== 'number'
@@ -164,14 +180,12 @@ class FeedChecker {
       ) {
         return null;
       }
-      paramKey = 'lastChangeNumber';
-      urlKey = 'afterChangeNumber';
+      const value = this.lastChangeNumber * 10;
+      lastPageUrl = `${lastPageUrl}afterChangeNumber=${value}`;
+      hasUrl = true;
     }
 
-    if (paramKey) {
-      const value = this[paramKey] * 10;
-      const currentUrl = new URL(this.url);
-      const lastPageUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlKey}=${value}`;
+    if (hasUrl) {
       return this.load(lastPageUrl)
         .then((json) => {
           const lastPageNode = new RpdeNode(

@@ -10,6 +10,7 @@ import UrlHelper from '../../helpers/url-helper';
 class AfterTimestampRule extends RpdeRule {
   constructor() {
     super();
+    this.lastId = null;
     this.lastTimestamp = null;
     this.meta = {
       name: 'AfterTimestampRule',
@@ -41,13 +42,14 @@ class AfterTimestampRule extends RpdeRule {
       return;
     }
     const afterTimestamp = UrlHelper.getParam('afterTimestamp', node.data.next, node.url);
+    const afterId = UrlHelper.getParam('afterId', node.data.next, node.url);
     if (afterTimestamp !== null) {
       const modified = jp.query(node.data, '$.items[0].modified');
       if (
-        modified.length === 0
-        || (
-          typeof modified[0] !== 'number'
-          && !modified[0].match(/^[1-9][0-9]*$/)
+        modified.length !== 0
+        && (
+          typeof modified[0] === 'number'
+          || modified[0].match(/^[1-9][0-9]*$/)
         )
       ) {
         if (!afterTimestamp.match(/^[1-9][0-9]*$/)) {
@@ -63,7 +65,34 @@ class AfterTimestampRule extends RpdeRule {
           );
         }
       }
-      if (!node.isLastPage && node.pageIndex > 0 && afterTimestamp <= this.lastTimestamp) {
+      const compare = {
+        afterTimestamp,
+        lastTimestamp: this.lastTimestamp,
+        afterId,
+        lastId: this.lastId,
+      };
+
+      for (const key in compare) {
+        if (Object.prototype.hasOwnProperty.call(compare, key)) {
+          if (
+            typeof compare[key] === 'string'
+            && compare[key].match(/^[1-9][0-9]*$/)
+          ) {
+            compare[key] *= 1;
+          }
+        }
+      }
+      if (
+        !node.isLastPage
+        && node.pageIndex > 0
+        && (
+          compare.afterTimestamp < compare.lastTimestamp
+          || (
+            compare.afterTimestamp === compare.lastTimestamp
+            && compare.afterId <= compare.lastId
+          )
+        )
+      ) {
         node.log.addPageError(
           node.url,
           this.createError(
@@ -75,7 +104,8 @@ class AfterTimestampRule extends RpdeRule {
           ),
         );
       }
-      this.lastTimestamp = afterTimestamp;
+      this.lastTimestamp = compare.afterTimestamp;
+      this.lastId = compare.afterId;
     }
   }
 }

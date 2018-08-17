@@ -10,6 +10,7 @@ import UrlHelper from '../../helpers/url-helper';
 class AfterChangeNumberRule extends RpdeRule {
   constructor() {
     super();
+    this.lastChangeNumber = null;
     this.meta = {
       name: 'AfterChangeNumberRule',
       description: 'If afterChangeNumber is used it must be an integer and "modified" must be an integer',
