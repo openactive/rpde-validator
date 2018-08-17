@@ -15,6 +15,7 @@ const RpdeErrorType = {
   INVALID_CONTENT_TYPE: 'invalid_content_type',
   LAST_PAGE_NO_ITEMS: 'last_page_no_items',
   LAST_PAGE_REFERENCE_SELF: 'last_page_reference_self',
+  AFTER_ID_WITH_TIMESTAMP: 'after_id_with_timestamp',
 };
 
 export default Object.freeze(RpdeErrorType);

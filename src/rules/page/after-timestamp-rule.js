@@ -14,21 +14,35 @@ class AfterTimestampRule extends RpdeRule {
     this.lastTimestamp = null;
     this.meta = {
       name: 'AfterTimestampRule',
-      description: 'If afterTimestamp is used, and "modified" is an integer, afterTimestamp must also be an integer',
+      description: 'If afterTimestamp is used, and "modified" is an integer, afterTimestamp must also be an integer.',
       tests: {
         default: {
-          description: 'Raises a failure if "modified" is an integer but "afterTimestamp" isn\'t',
-          message: 'If afterTimestamp is used, and "modified" is an integer, afterTimestamp must also be an integer',
+          description: 'Raises a failure if "modified" is an integer but "afterTimestamp" isn\'t.',
+          message: 'If afterTimestamp is used, and "modified" is an integer, afterTimestamp must also be an integer.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.INVALID_TYPE,
         },
         increment: {
-          description: 'Raises a failure if the afterTimestamp doesn\'t increase with each new page',
-          message: 'The afterTimestamp of the next url should always increase with each new page',
+          description: 'Raises a failure if the afterTimestamp doesn\'t increase with each new page.',
+          message: 'The afterTimestamp of the next url should always increase with each new page.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.AFTER_PARAM_SHOULD_INCREASE,
+        },
+        afterId: {
+          description: 'Raises a failure if afterId isn\'t present when afterTimestamp is.',
+          message: 'If afterTimestamp is used, afterId should be present too.',
+          category: ValidationErrorCategory.CONFORMANCE,
+          severity: ValidationErrorSeverity.FAILURE,
+          type: RpdeErrorType.AFTER_ID_WITH_TIMESTAMP,
+        },
+        afterIdAlternative: {
+          description: 'Raises a failure if afterId isn\'t present when afterTimestamp is, presenting an alternative error if afterID is present.',
+          message: 'If afterTimestamp is used, afterId should be present too. "afterID" should be corrected to "afterId".',
+          category: ValidationErrorCategory.CONFORMANCE,
+          severity: ValidationErrorSeverity.FAILURE,
+          type: RpdeErrorType.AFTER_ID_WITH_TIMESTAMP,
         },
       },
     };
@@ -65,6 +79,23 @@ class AfterTimestampRule extends RpdeRule {
           );
         }
       }
+      if (afterId === null) {
+        let afterKey = 'afterId';
+        if (UrlHelper.getParam('afterID', node.data.next, node.url) !== null) {
+          afterKey = 'afterIdAlternative';
+        }
+        node.log.addPageError(
+          node.url,
+          this.createError(
+            afterKey,
+            {
+              value: node.data,
+              url: node.url,
+            },
+          ),
+        );
+      }
+
       const compare = {
         afterTimestamp,
         lastTimestamp: this.lastTimestamp,

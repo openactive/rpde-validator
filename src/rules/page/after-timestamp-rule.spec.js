@@ -13,7 +13,7 @@ describe('AfterTimestampRule', () => {
     log = new FeedLog();
     spyOn(log, 'addPageError').and.callThrough();
     json = {
-      next: `${url}?afterTimestamp=1534482464`,
+      next: `${url}?afterTimestamp=1534482464&afterId=1234`,
       items: [
         {
           data: {},
@@ -42,8 +42,45 @@ describe('AfterTimestampRule', () => {
     expect(log.addPageError).not.toHaveBeenCalled();
   });
 
+  it('should raise an error when the timestamp is used without an afterId', () => {
+    json.next = `${url}?afterTimestamp=1534482464`;
+    const node = new RpdeNode(
+      url,
+      json,
+      log,
+      1,
+      false,
+    );
+
+    rule.validate(node);
+
+    expect(log.addPageError).toHaveBeenCalled();
+    expect(log.pages.length).toBe(1);
+    expect(log.pages[0].errors.length).toBe(1);
+    expect(log.pages[0].errors[0].type).toBe(RpdeErrorType.AFTER_ID_WITH_TIMESTAMP);
+  });
+
+  it('should raise an error when the timestamp is used and afterID is misspelt', () => {
+    json.next = `${url}?afterTimestamp=1534482464&afterID=123`;
+    const node = new RpdeNode(
+      url,
+      json,
+      log,
+      1,
+      false,
+    );
+
+    rule.validate(node);
+
+    expect(log.addPageError).toHaveBeenCalled();
+    expect(log.pages.length).toBe(1);
+    expect(log.pages[0].errors.length).toBe(1);
+    expect(log.pages[0].errors[0].type).toBe(RpdeErrorType.AFTER_ID_WITH_TIMESTAMP);
+    expect(log.pages[0].errors[0].message).toContain('afterID');
+  });
+
   it('should raise an error when the timestamp is not numeric but modified is', () => {
-    json.next = `${url}?afterTimestamp=2018-01-01T00:00:00`;
+    json.next = `${url}?afterTimestamp=2018-01-01T00:00:00&afterId=123`;
 
     const node = new RpdeNode(
       url,
@@ -70,6 +107,7 @@ describe('AfterTimestampRule', () => {
       false,
     );
     rule.lastTimestamp = 1534482464;
+    rule.lastId = 1234;
 
     rule.validate(node);
 
