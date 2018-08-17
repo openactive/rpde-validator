@@ -23,6 +23,27 @@ class AfterTimestampRule extends RpdeRule {
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.INVALID_TYPE,
         },
+        timestampInteger: {
+          description: 'Raises a warning if "afterTimestamp" isn\'t an integer',
+          message: 'If possible, when afterTimestamp is used it should be an integer. Whilst this isn\'t mandated in the specification, it is recommended that both afterTimestamp and modified are integers to be compatible with future version of RPDE.',
+          category: ValidationErrorCategory.CONFORMANCE,
+          severity: ValidationErrorSeverity.WARNING,
+          type: RpdeErrorType.INVALID_TYPE,
+        },
+        modifiedInteger: {
+          description: 'Raises a warning if "modified" isn\'t an integer',
+          message: 'If possible, when afterTimestamp is used, modified should be an integer. Whilst this isn\'t mandated in the specification, it is recommended that both afterTimestamp and modified are integers to be compatible with future version of RPDE.',
+          category: ValidationErrorCategory.CONFORMANCE,
+          severity: ValidationErrorSeverity.WARNING,
+          type: RpdeErrorType.INVALID_TYPE,
+        },
+        modifiedStringInteger: {
+          description: 'Raises an error if "modified" is a string representation of an integer',
+          message: 'When modified is an integer, it should not be presented as a string.',
+          category: ValidationErrorCategory.CONFORMANCE,
+          severity: ValidationErrorSeverity.FAILURE,
+          type: RpdeErrorType.INVALID_TYPE,
+        },
         increment: {
           description: 'Raises a failure if the afterTimestamp doesn\'t increase with each new page.',
           message: 'The afterTimestamp of the next url should always increase with each new page.',
@@ -51,7 +72,6 @@ class AfterTimestampRule extends RpdeRule {
   validate(node) {
     if (
       typeof node.data !== 'object'
-      || node.isLastPage
     ) {
       return;
     }
@@ -59,25 +79,73 @@ class AfterTimestampRule extends RpdeRule {
     const afterId = UrlHelper.getParam('afterId', node.data.next, node.url);
     if (afterTimestamp !== null) {
       const modified = jp.query(node.data, '$.items[0].modified');
-      if (
-        modified.length !== 0
-        && (
+      if (modified.length !== 0) {
+        if (
           typeof modified[0] === 'number'
           || modified[0].match(/^[1-9][0-9]*$/)
-        )
-      ) {
-        if (!afterTimestamp.match(/^[1-9][0-9]*$/)) {
+        ) {
+          if (
+            typeof modified[0] === 'string'
+            && modified[0].match(/^[1-9][0-9]*$/)
+          ) {
+            node.log.addPageError(
+              node.url,
+              this.createError(
+                'modifiedStringInteger',
+                {
+                  value: node.data,
+                  url: node.url,
+                },
+              ),
+            );
+          }
+          if (!afterTimestamp.match(/^[1-9][0-9]*$/)) {
+            node.log.addPageError(
+              node.url,
+              this.createError(
+                'default',
+                {
+                  value: node.data,
+                  url: node.url,
+                },
+              ),
+            );
+          }
+        } else {
           node.log.addPageError(
             node.url,
             this.createError(
-              'default',
+              'modifiedInteger',
               {
                 value: node.data,
                 url: node.url,
               },
             ),
           );
+          if (!afterTimestamp.match(/^[1-9][0-9]*$/)) {
+            node.log.addPageError(
+              node.url,
+              this.createError(
+                'timestampInteger',
+                {
+                  value: node.data,
+                  url: node.url,
+                },
+              ),
+            );
+          }
         }
+      } else if (!afterTimestamp.match(/^[1-9][0-9]*$/)) {
+        node.log.addPageError(
+          node.url,
+          this.createError(
+            'timestampInteger',
+            {
+              value: node.data,
+              url: node.url,
+            },
+          ),
+        );
       }
       if (afterId === null) {
         let afterKey = 'afterId';
