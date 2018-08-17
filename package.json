@@ -26,6 +26,7 @@
     "build": "babel src --out-dir dist",
     "postinstall": "npm run build",
     "lint": "eslint \"src/**/*.js\"",
+    "e2e": "babel-node src/e2e.js",
     "pretest": "npm run lint",
     "test": "npm run test-no-lint",
     "test-no-lint": "BABEL_ENV=test babel-node spec/run.js"

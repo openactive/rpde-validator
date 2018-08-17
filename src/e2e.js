@@ -9,7 +9,8 @@ const urls = [
   // 'http://lr-api.staging.phoenixdigital.agency/public/v1/rides?afterTimestamp=1490517651&afterId=87988',
   // 'https://api.clubspark.uk/odi/public/courses',
   // 'http://46.101.27.39/eventslive/api/openactive/events',
-  'https://playwaze.com/Webservices/Playwazeservice.svc/Groupplay/GetOpenActiveData',
+  // 'https://playwaze.com/Webservices/Playwazeservice.svc/Groupplay/GetOpenActiveData',
+  'https://bookwhen.com/api/openactive/event_types',
 ];
 
 for (const url of urls) {
