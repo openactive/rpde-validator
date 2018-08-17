@@ -7,6 +7,7 @@ import NextPageValidRule from './page/next-page-valid-rule';
 import RequiredPropertiesRule from './page/required-properties-rule';
 import RequiredItemPropertiesRule from './page/required-item-properties-rule';
 import RequiredPropertyValuesRule from './page/required-property-values-rule';
+import ItemDataPromptRule from './item-data-prompt-rule';
 
 import NoLastPageItemsRule from './last-page/no-last-page-items-rule';
 import LastPageUrlIsSelfRule from './last-page/last-page-url-is-self-rule';
@@ -28,6 +29,7 @@ export default {
     RequiredPropertiesRule,
     RequiredItemPropertiesRule,
     RequiredPropertyValuesRule,
+    ItemDataPromptRule,
   ],
   preLastPage: [
     LastPageCheckRule,
