@@ -46,7 +46,10 @@ class AfterTimestampRule extends RpdeRule {
         },
         increment: {
           description: 'Raises a failure if the afterTimestamp doesn\'t increase with each new page.',
-          message: 'The afterTimestamp of the next url should always increase with each new page.',
+          message: 'The afterTimestamp and/or the afterId of the next url should always increase with each new page. The next URL of this page is "{{url}}"',
+          sampleValues: {
+            url: 'https://example.org/feed',
+          },
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.AFTER_PARAM_SHOULD_INCREASE,
@@ -75,6 +78,8 @@ class AfterTimestampRule extends RpdeRule {
     ) {
       return;
     }
+    const lastTimestamp = UrlHelper.getParam('afterTimestamp', node.url) || this.lastTimestamp;
+    const lastId = UrlHelper.getParam('afterId', node.url) || this.lastId;
     const afterTimestamp = UrlHelper.getParam('afterTimestamp', node.data.next, node.url);
     const afterId = UrlHelper.getParam('afterId', node.data.next, node.url);
     if (afterTimestamp !== null) {
@@ -166,9 +171,9 @@ class AfterTimestampRule extends RpdeRule {
 
       const compare = {
         afterTimestamp,
-        lastTimestamp: this.lastTimestamp,
+        lastTimestamp,
         afterId,
-        lastId: this.lastId,
+        lastId,
       };
 
       for (const key in compare) {
@@ -199,6 +204,9 @@ class AfterTimestampRule extends RpdeRule {
             {
               value: node.data,
               url: node.url,
+            },
+            {
+              url: node.data.next,
             },
           ),
         );

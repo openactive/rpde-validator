@@ -31,7 +31,10 @@ class AfterChangeNumberRule extends RpdeRule {
         },
         increment: {
           description: 'Raises a failure if the afterChangeNumber doesn\'t increase with each new page',
-          message: 'The afterChangeNumber of the next url should always increase with each new page',
+          message: 'The afterChangeNumber of the next url should always increase with each new page. The next URL of this page is "{{url}}"',
+          sampleValues: {
+            url: 'https://example.org/feed',
+          },
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.AFTER_PARAM_SHOULD_INCREASE,
@@ -47,6 +50,7 @@ class AfterChangeNumberRule extends RpdeRule {
     ) {
       return;
     }
+    const lastChangeNumber = UrlHelper.getParam('afterChangeNumber', node.url) || this.lastChangeNumber;
     const afterChangeNumber = UrlHelper.getParam('afterChangeNumber', node.data.next, node.url);
     if (afterChangeNumber !== null) {
       const modified = jp.query(node.data, '$.items[0].modified');
@@ -81,7 +85,7 @@ class AfterChangeNumberRule extends RpdeRule {
         );
       }
       let compareAfterChangeNumber = afterChangeNumber;
-      let compareLastChangeNumber = this.lastChangeNumber;
+      let compareLastChangeNumber = lastChangeNumber;
       if (
         typeof compareAfterChangeNumber === 'string'
         && compareAfterChangeNumber.match(/^[1-9][0-9]*$/)
@@ -102,6 +106,9 @@ class AfterChangeNumberRule extends RpdeRule {
             {
               value: node.data,
               url: node.url,
+            },
+            {
+              url: node.data.next,
             },
           ),
         );
