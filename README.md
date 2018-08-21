@@ -44,8 +44,13 @@ RpdeValidator(
     // Default: 0
     requestDelayMs: 1000,
     // The timeout in which to give up on requesting a feed URL
+    // Must be non-zero
     // Default: 10000
     timeoutMs: 10000,
+    // The number of feed pages to walk through
+    // Must be non-zero
+    // Default: 20
+    pageLimit: 10,
   }
 );
 ```

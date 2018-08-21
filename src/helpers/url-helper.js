@@ -1,6 +1,8 @@
 import fetch from 'node-fetch';
 import { URL } from 'url';
 
+import TimeoutError from '../errors/timeout-error';
+
 class UrlHelper {
   static deriveUrl(url, base) {
     if (typeof url !== 'string') {
@@ -38,7 +40,7 @@ class UrlHelper {
       ),
       new Promise((_, reject) => {
         timeoutId = setTimeout(
-          () => reject(new Error(`Request to ${url} timed out!`)),
+          () => reject(new TimeoutError(`Request to ${url} timed out after ${timeout}ms`)),
           timeout,
         );
       }),

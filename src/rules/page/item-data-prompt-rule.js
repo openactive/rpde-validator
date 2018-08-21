@@ -22,7 +22,7 @@ const ItemDataPromptRule = class extends RpdeRule {
         },
         yesModelling: {
           description: 'Raises a failure if the data field is present on a deleted item',
-          message: 'It appears that this feed is attempt to comply with the Modelling Opportunity Data specification. If you\'d like to validate that item data conforms to the spec, try the OpenActive Data Validator at https://validator.openactive.io/.',
+          message: 'It appears that this feed is attempting to comply with the Modelling Opportunity Data specification. If you\'d like to validate that item data conforms to the spec, try the OpenActive Data Validator at https://validator.openactive.io/.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.SUGGESTION,
           type: RpdeErrorType.HAS_MODELLING_DATA,

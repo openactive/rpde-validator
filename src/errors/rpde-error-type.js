@@ -18,6 +18,7 @@ const RpdeErrorType = {
   AFTER_ID_WITH_TIMESTAMP: 'after_id_with_timestamp',
   NO_MODELLING_DATA: 'no_modelling_data',
   HAS_MODELLING_DATA: 'has_modelling_data',
+  HTTP_ERROR: 'http_error',
 };
 
 export default Object.freeze(RpdeErrorType);

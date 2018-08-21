@@ -1,16 +1,21 @@
+import {
+  ValidationErrorCategory,
+  ValidationErrorSeverity,
+  ValidationError,
+} from '@openactive/data-model-validator';
 import { URL } from 'url';
 import FeedLog from './feed-log';
 import RpdeNode from './rpde-node';
 import Rules from './rules';
 import UrlHelper from './helpers/url-helper';
 import { version } from './version';
+import RpdeErrorType from './errors/rpde-error-type';
 
 class FeedChecker {
   constructor(url, options = {}) {
     this.url = url;
     this.isLastPage = false;
     this.pageIndex = 0;
-    this.pageTotal = 20;
     this.log = new FeedLog(url);
     this.lastTimestamp = null;
     this.firstId = null;
@@ -23,8 +28,23 @@ class FeedChecker {
     this.logCallback = options.logCallback;
 
     this.userAgent = options.userAgent || `RPDE_Validator/${version} (+https://validator.openactive.io/rpde)`;
-    this.requestDelayMs = options.requestDelayMs || 0;
-    this.timeoutMs = options.timeoutMs || 10000;
+    this.pageLimit = 20;
+    this.requestDelayMs = 0;
+    this.timeoutMs = 10000;
+    const overrideOptions = [
+      'pageLimit',
+      'requestDelayMs',
+      'timeoutMs',
+    ];
+
+    for (const param of overrideOptions) {
+      if (
+        typeof options[param] === 'number'
+        && !Number.isNaN(options[param])
+      ) {
+        this[param] = options[param];
+      }
+    }
 
     for (let index = 0; index < Rules.http.length; index += 1) {
       this.httpRules.push(new Rules.http[index]());
@@ -58,7 +78,7 @@ class FeedChecker {
   }
 
   percentageComplete() {
-    return (this.pageIndex / (this.pageTotal + 1)) * 100;
+    return (this.pageIndex / (this.pageLimit + 1)) * 100;
   }
 
   addError(err) {
@@ -127,7 +147,7 @@ class FeedChecker {
         if (
           nextUrl !== url
           && UrlHelper.isUrl(nextUrl)
-          && this.pageIndex < this.pageTotal
+          && this.pageIndex < this.pageLimit
         ) {
           return new Promise(
             (resolve) => {
@@ -314,7 +334,22 @@ class FeedChecker {
         return json;
       },
     ).catch(
-      () => undefined,
+      (e) => {
+        if (e.name === 'TimeoutError') {
+          this.log.addPageError(
+            url,
+            new ValidationError(
+              {
+                category: ValidationErrorCategory.INTERNAL,
+                type: RpdeErrorType.HTTP_ERROR,
+                severity: ValidationErrorSeverity.FAILURE,
+                message: e.message,
+              },
+            ),
+          );
+        }
+        return undefined;
+      },
     );
   }
 }
