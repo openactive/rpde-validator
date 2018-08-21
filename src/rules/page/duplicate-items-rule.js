@@ -10,15 +10,17 @@ const DuplicateItemsRule = class extends RpdeRule {
   constructor() {
     super();
     this.itemMap = [];
+    this.itemLocations = {};
     this.meta = {
       name: 'DuplicateItemsRule',
       description: 'Validates that the feed contains no duplicate items',
       tests: {
         default: {
           description: 'Raises a failure if a duplicate item is found at any point in the feed',
-          message: 'Items should not appear more than once. Found duplicate id "{{id}}".',
+          message: 'Items should not appear more than once. Found duplicate id "{{id}}" in {{url}}.',
           sampleValues: {
             id: 'ABC123',
+            url: 'http://example.org/feed',
           },
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
@@ -45,11 +47,13 @@ const DuplicateItemsRule = class extends RpdeRule {
             },
             {
               id,
+              url: this.itemLocations[id],
             },
           ),
         );
       } else {
         this.itemMap.push(id);
+        this.itemLocations[id] = node.url;
       }
     }
   }
