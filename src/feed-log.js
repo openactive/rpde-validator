@@ -7,9 +7,7 @@ class FeedLog {
   }
 
   addPage(url) {
-    const page = new FeedLogPage(url);
-    this.pages.push(page);
-    return page;
+    return this.getPage(url);
   }
 
   addError(error) {
@@ -22,7 +20,9 @@ class FeedLog {
         return page;
       }
     }
-    return this.addPage(url);
+    const page = new FeedLogPage(url);
+    this.pages.push(page);
+    return page;
   }
 
   addPageError(url, error) {

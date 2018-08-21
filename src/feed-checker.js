@@ -7,6 +7,7 @@ import { URL } from 'url';
 import FeedLog from './feed-log';
 import RpdeNode from './rpde-node';
 import Rules from './rules';
+import LastPageHelper from './helpers/last-page-helper';
 import UrlHelper from './helpers/url-helper';
 import { version } from './version';
 import RpdeErrorType from './errors/rpde-error-type';
@@ -207,28 +208,20 @@ class FeedChecker {
     let lastPageUrl = `${currentUrl.origin}${currentUrl.pathname}?`;
     let hasUrl = false;
     if (this.lastTimestamp !== null) {
-      if (
-        typeof this.lastTimestamp !== 'number'
-        && !this.lastTimestamp.match(/^[1-9][0-9]*$/)
-      ) {
-        return null;
+      const value = LastPageHelper.calculateLastPageTimestamp(this.lastTimestamp);
+      if (value !== null) {
+        lastPageUrl = `${lastPageUrl}afterTimestamp=${value}`;
+        if (this.firstId !== null) {
+          lastPageUrl = `${lastPageUrl}&afterId=${this.firstId}`;
+        }
+        hasUrl = true;
       }
-      const value = this.lastTimestamp * 10;
-      lastPageUrl = `${lastPageUrl}afterTimestamp=${value}`;
-      if (this.firstId !== null) {
-        lastPageUrl = `${lastPageUrl}&afterId=${this.firstId}`;
-      }
-      hasUrl = true;
     } else if (this.lastChangeNumber !== null) {
-      if (
-        typeof this.lastChangeNumber !== 'number'
-        && !this.lastChangeNumber.match(/^[1-9][0-9]*$/)
-      ) {
-        return null;
+      const value = LastPageHelper.calculateLastPageChangeNumber();
+      if (value !== null) {
+        lastPageUrl = `${lastPageUrl}afterChangeNumber=${value}`;
+        hasUrl = true;
       }
-      const value = this.lastChangeNumber * 10;
-      lastPageUrl = `${lastPageUrl}afterChangeNumber=${value}`;
-      hasUrl = true;
     }
 
     if (hasUrl) {
