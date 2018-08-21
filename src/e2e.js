@@ -18,8 +18,11 @@ const urls = [
 for (const url of urls) {
   RpdeValidator(
     url,
-    (log) => {
-      console.log(`[${log.verbosity}] ${log.message} (${Math.round(log.percentage)}%)`);
+    {
+      logCallback: (log) => {
+        console.log(`[${log.verbosity}] ${log.message} (${Math.round(log.percentage)}%)`);
+      },
+      // requestDelayMs: 5000,
     },
   ).then((log) => {
     console.log(

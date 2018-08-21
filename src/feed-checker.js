@@ -3,9 +3,10 @@ import FeedLog from './feed-log';
 import RpdeNode from './rpde-node';
 import Rules from './rules';
 import UrlHelper from './helpers/url-helper';
+import { version } from './version';
 
 class FeedChecker {
-  constructor(url, logCallback) {
+  constructor(url, options = {}) {
     this.url = url;
     this.isLastPage = false;
     this.pageIndex = 0;
@@ -19,7 +20,11 @@ class FeedChecker {
     this.pageRules = [];
     this.preLastPageRules = [];
     this.lastPageRules = [];
-    this.logCallback = logCallback;
+    this.logCallback = options.logCallback;
+
+    this.userAgent = options.userAgent || `RPDE_Validator/${version} (+https://validator.openactive.io/rpde)`;
+    this.requestDelayMs = options.requestDelayMs || 0;
+    this.timeoutMs = options.timeoutMs || 10000;
 
     for (let index = 0; index < Rules.http.length; index += 1) {
       this.httpRules.push(new Rules.http[index]());
@@ -70,11 +75,24 @@ class FeedChecker {
 
         const nextUrl = UrlHelper.deriveUrl(json.next, url);
 
+        this.logMessage(
+          `Next URL is ${nextUrl}`,
+          {
+            verbosity: 2,
+          },
+        );
+
         if (
           nextUrl === url
           && json.items instanceof Array
           && json.items.length === 0
         ) {
+          this.logMessage(
+            `${url} is the last page`,
+            {
+              verbosity: 3,
+            },
+          );
           this.isLastPage = true;
         }
 
@@ -111,7 +129,19 @@ class FeedChecker {
           && UrlHelper.isUrl(nextUrl)
           && this.pageIndex < this.pageTotal
         ) {
-          return this.walk(nextUrl);
+          return new Promise(
+            (resolve) => {
+              if (this.requestDelayMs > 0) {
+                this.logMessage(
+                  `Waiting for ${this.requestDelayMs}ms before next request`,
+                  {
+                    verbosity: 2,
+                  },
+                );
+              }
+              setTimeout(resolve, this.requestDelayMs);
+            },
+          ).then(() => this.walk(nextUrl));
         }
 
         const afterNode = new RpdeNode(
@@ -240,8 +270,13 @@ class FeedChecker {
   load(url) {
     this.logMessage(`Loading ${url}...`);
     this.log.addPage(url);
+    const options = {
+      headers: {
+        'User-Agent': this.userAgent,
+      },
+    };
     let res;
-    return UrlHelper.fetch(url).then(
+    return UrlHelper.fetch(url, options, this.timeoutMs).then(
       (response) => {
         this.logMessage(`Loaded ${url}`);
         res = response;
