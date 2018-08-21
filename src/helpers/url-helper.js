@@ -27,8 +27,22 @@ class UrlHelper {
     return urlObj.searchParams.get(param);
   }
 
-  static fetch(url) {
-    return fetch(url);
+  static fetch(url, options = {}, timeout = 10000) {
+    let timeoutId;
+    return Promise.race([
+      fetch(url, options).then(
+        (res) => {
+          clearTimeout(timeoutId);
+          return res;
+        },
+      ),
+      new Promise((_, reject) => {
+        timeoutId = setTimeout(
+          () => reject(new Error(`Request to ${url} timed out!`)),
+          timeout,
+        );
+      }),
+    ]);
   }
 
   static isUrl(url) {

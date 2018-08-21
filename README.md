@@ -19,6 +19,37 @@ This library can be used in your own application, perhaps as part of your CI pip
 $ npm install @openactive/rpde-validator
 ```
 
+### Usage
+
+```js
+import { RpdeValidator } from '@openactive/rpde-validator';
+
+RpdeValidator(
+  url, // The URL of the feed to test
+  {
+    // A callback that is called for log messages
+    // Will be provided with an object that looks like:
+    // {
+    //   verbosity: 1, // 1-3 (higher is more verbose)
+    //   percentage: 50, // The percentage complete
+    //   message: '...', // String log message
+    // }
+    logCallback: (log) => {
+      console.log(log.message);
+    },
+    // User agent used by the validator
+    // Default: "RPDE_Validator/version (+https://validator.openactive.io/rpde)"
+    userAgent: null, 
+    // The time in between requests in a feed in milliseconds
+    // Default: 0
+    requestDelayMs: 1000,
+    // The timeout in which to give up on requesting a feed URL
+    // Default: 10000
+    timeoutMs: 10000,
+  }
+);
+```
+
 ## Development
 
 ### Getting started
