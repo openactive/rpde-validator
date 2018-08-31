@@ -41,7 +41,7 @@ for (const url of urls) {
       ),
     );
     console.log(
-      `Walked ${log.pages.length} page(s)`
+      `Walked ${log.pages.length} page(s)`,
     );
   });
 }
