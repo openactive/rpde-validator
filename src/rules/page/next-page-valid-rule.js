@@ -15,7 +15,7 @@ const NextPageValidRule = class extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a failure if the next parameter is not a valid URL',
-          message: 'Next page parameter "{{url}}" should be a valid absolute URL',
+          message: 'The "next" property "{{url}}" should be a valid absolute URL',
           sampleValues: {
             url: '/feed.json',
           },
