@@ -1,3 +1,4 @@
+import defaultRules from './rules';
 import FeedChecker from './feed-checker';
 
 function RpdeValidator(url, options) {
@@ -6,5 +7,8 @@ function RpdeValidator(url, options) {
     .then(() => loader.log);
 }
 
-export { RpdeValidator };
+export {
+  defaultRules,
+  RpdeValidator,
+};
 export default RpdeValidator;
