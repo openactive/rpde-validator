@@ -18,35 +18,35 @@ class AfterTimestampRule extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a failure if "modified" is an integer but "afterTimestamp" isn\'t.',
-          message: 'If afterTimestamp is used, and "modified" is an integer, afterTimestamp must also be an integer.',
+          message: 'When using the [Modified Timestamp and ID Ordering Strategy](https://www.openactive.io/realtime-paged-data-exchange/#modified-timestamp-and-id), the `afterTimestamp` parameter and `modified` property must reference the same set of values in the same format. Please correct `afterTimestamp` to be an integer.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.INVALID_TYPE,
         },
         timestampInteger: {
           description: 'Raises a warning if "afterTimestamp" isn\'t an integer',
-          message: 'If possible, when afterTimestamp is used it should be an integer. Whilst this isn\'t mandated in the specification, it is recommended that both afterTimestamp and modified are integers to be compatible with future version of RPDE.',
+          message: 'When using the [Modified Timestamp and ID Ordering Strategy](https://www.openactive.io/realtime-paged-data-exchange/#modified-timestamp-and-id), `afterTimestamp` should be an integer. Whilst this isn\'t mandated in the specification, it is recommended that both `afterTimestamp` and `modified` are integers to be compatible with future versions of RPDE.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.WARNING,
           type: RpdeErrorType.INVALID_TYPE,
         },
         modifiedInteger: {
           description: 'Raises a warning if "modified" isn\'t an integer',
-          message: 'If possible, when afterTimestamp is used, modified should be an integer. Whilst this isn\'t mandated in the specification, it is recommended that both afterTimestamp and modified are integers to be compatible with future version of RPDE.',
+          message: 'If possible, when `afterTimestamp` is used, `modified` should be an integer. Whilst this isn\'t mandated in the specification, it is recommended that both `afterTimestamp` and `modified` are integers to be compatible with future version of RPDE.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.WARNING,
           type: RpdeErrorType.INVALID_TYPE,
         },
         modifiedStringInteger: {
           description: 'Raises an error if "modified" is a string representation of an integer',
-          message: 'When modified is an integer, it should not be presented as a string.',
+          message: 'When `modified` is an integer, it must not be presented as a string. Please ensure the value for `modified` is a JSON number.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.INVALID_TYPE,
         },
         increment: {
           description: 'Raises a failure if the afterTimestamp doesn\'t increase with each new page.',
-          message: 'The afterTimestamp and/or the afterId of the next url should always increase with each new page. The next URL of this page is "{{url}}"',
+          message: 'When using the [Modified Timestamp and ID Ordering Strategy](https://www.openactive.io/realtime-paged-data-exchange/#modified-timestamp-and-id), the combination of `afterTimestamp` and `afterId` in the next url must always increase with each new page, as the primary query sorts first by `modified` and then by `id`. The next URL of this page is "{{url}}"',
           sampleValues: {
             url: 'https://example.org/feed',
           },
@@ -56,14 +56,17 @@ class AfterTimestampRule extends RpdeRule {
         },
         afterId: {
           description: 'Raises a failure if afterId isn\'t present when afterTimestamp is.',
-          message: 'If afterTimestamp is used, afterId should be present too.',
+          message: 'When using the [Modified Timestamp and ID Ordering Strategy](https://www.openactive.io/realtime-paged-data-exchange/#modified-timestamp-and-id), if the parameter `afterTimestamp` is present, then `afterId` must also be present.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.AFTER_ID_WITH_TIMESTAMP,
         },
         afterIdAlternative: {
           description: 'Raises a failure if afterId isn\'t present when afterTimestamp is, presenting an alternative error if afterID is present.',
-          message: 'If afterTimestamp is used, afterId should be present too. "afterID" should be corrected to "afterId".',
+          message: 'The parameter `"{{misspelling}}"` is a common misspelling of `afterId`. Please update it to `afterId`.',
+          sampleValues: {
+            misspelling: 'afterID',
+          },
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.AFTER_ID_WITH_TIMESTAMP,
@@ -154,8 +157,11 @@ class AfterTimestampRule extends RpdeRule {
       }
       if (afterId === null) {
         let afterKey = 'afterId';
-        if (UrlHelper.getParam('afterID', node.data.next, node.url) !== null) {
+        const misspelling = UrlHelper.findParamInWrongCase('afterId', node.data.next, node.url);
+        let values = {};
+        if (misspelling !== null) {
           afterKey = 'afterIdAlternative';
+          values = { misspelling };
         }
         node.log.addPageError(
           node.url,
@@ -165,6 +171,7 @@ class AfterTimestampRule extends RpdeRule {
               value: node.data,
               url: node.url,
             },
+            values,
           ),
         );
       }

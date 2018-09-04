@@ -16,7 +16,7 @@ const MinimumItemsRule = class extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a warning if a page contains fewer than 500 items',
-          message: 'Pages should contain at least 500 items',
+          message: 'Pages should contain at least 500 items to optimise the number of pages that a data consumer needs to download. Note this is only a recommendation, and actual default limit should be based on query performance.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.WARNING,
           type: RpdeErrorType.MINIMUM_ITEMS_PER_PAGE,

@@ -13,8 +13,8 @@ const RequiredItemPropertiesRule = class extends RpdeRule {
       description: 'Validates that the feed contains required properties',
       tests: {
         default: {
-          description: 'Raises a failure if a required field is missing at from any of the items',
-          message: 'Required field "{{field}}" is missing from {{count}} items in the feed.',
+          description: 'Raises a failure if a required property is missing at from any of the items',
+          message: 'Required property [`{{field}}`](https://www.openactive.io/realtime-paged-data-exchange/#-item-) is missing from {{count}} items in the feed.',
           sampleValues: {
             field: 'id',
             count: 23,
@@ -24,8 +24,8 @@ const RequiredItemPropertiesRule = class extends RpdeRule {
           type: RpdeErrorType.MISSING_REQUIRED_FIELD,
         },
         noData: {
-          description: 'Raises a failure if the data field is present on a deleted item',
-          message: 'Field "data" should not be present on deleted items, but was found in {{count}} items in the feed.',
+          description: 'Raises a failure if the data property is present on a deleted item',
+          message: 'The [`data` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must not be present on deleted items, but was found in {{count}} deleted items in the feed.',
           sampleValues: {
             count: 23,
           },

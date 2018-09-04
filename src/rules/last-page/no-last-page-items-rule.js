@@ -15,7 +15,7 @@ const NoLastPageItemsRule = class extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a failure if items are found on the last page of the feed',
-          message: 'The last page should not contain any items.',
+          message: 'The last page must not contain any items. See the [last page definition](https://www.openactive.io/realtime-paged-data-exchange/#last-page-definition) for more details.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.LAST_PAGE_NO_ITEMS,

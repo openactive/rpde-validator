@@ -13,8 +13,8 @@ const RequiredPropertiesRule = class extends RpdeRule {
       description: 'Validates that the feed contains required properties',
       tests: {
         default: {
-          description: 'Raises a failure if a required field is missing at the root of the feed',
-          message: 'Required field "{{field}}" is missing from the feed.',
+          description: 'Raises a failure if a required property is missing at the root of the feed',
+          message: 'Required property [`{{field}}`](https://www.openactive.io/realtime-paged-data-exchange/#-response-) is missing from the feed.',
           sampleValues: {
             field: 'license',
           },

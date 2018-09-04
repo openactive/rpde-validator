@@ -17,7 +17,7 @@ const DuplicateItemsRule = class extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a failure if a duplicate item is found at any point in the feed',
-          message: 'Items should not appear more than once. Found duplicate id "{{id}}" in {{url}}.',
+          message: 'Items must not appear more than once in the feed unless that item is updated while validation is in progress. If this error appears consistently, check the sort order is correct in the primary query. Found duplicate id `"{{id}}"` in {{url}}.',
           sampleValues: {
             id: 'ABC123',
             url: 'http://example.org/feed',

@@ -15,7 +15,7 @@ const LastPageUrlIsSelfRule = class extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a failure if the last page "next" url points to a different page',
-          message: 'The last page next URL should point to itself.',
+          message: 'The last page `next` URL must point to itself. See the [last page definition](https://www.openactive.io/realtime-paged-data-exchange/#last-page-definition) for more details.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.LAST_PAGE_REFERENCE_SELF,

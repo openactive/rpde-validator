@@ -21,8 +21,8 @@ const ItemDataPromptRule = class extends RpdeRule {
           type: RpdeErrorType.NO_MODELLING_DATA,
         },
         yesModelling: {
-          description: 'Raises a failure if the data field is present on a deleted item',
-          message: 'It appears that this feed is attempting to comply with the Modelling Opportunity Data specification. If you\'d like to validate that item data conforms to the spec, try the OpenActive Data Validator at https://validator.openactive.io/.',
+          description: 'Raises a notice with a prompt to use the model validator if using the modelling spec.',
+          message: 'It appears that this feed is attempting to comply with the Modelling Opportunity Data specification. To validate the "data" objects within this feed please use the [Model tab](https://validator.openactive.io) of this validator.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.SUGGESTION,
           type: RpdeErrorType.HAS_MODELLING_DATA,
@@ -41,24 +41,29 @@ const ItemDataPromptRule = class extends RpdeRule {
       return;
     }
 
-    const openActiveContext = 'https://www.openactive.io/ns/oa.jsonld';
+    const openActiveContext = /openactive\.io/;
 
     for (const item of node.data.items) {
       if (
         typeof item.data === 'object'
         && !(item.data instanceof Array)
       ) {
+        let isMatch = false;
+        if (typeof item.data['@context'] === 'string') {
+          isMatch = item.data['@context'].match(openActiveContext);
+        }
         if (
-          (
-            typeof item.data['@context'] === 'string'
-            && item.data['@context'] === openActiveContext
-          )
-          || (
-            typeof item.data['@context'] === 'object'
-            && item.data['@context'] instanceof Array
-            && item.data['@context'].indexOf(openActiveContext) >= 0
-          )
+          typeof item.data['@context'] === 'object'
+          && item.data['@context'] instanceof Array
         ) {
+          for (const context of item.data['@context']) {
+            isMatch = context.match(openActiveContext);
+            if (isMatch) {
+              break;
+            }
+          }
+        }
+        if (isMatch) {
           this.hasModellingData = true;
           break;
         }

@@ -10,11 +10,11 @@ const HttpContentTypeRule = class extends RpdeRule {
     super();
     this.meta = {
       name: 'HttpContentTypeRule',
-      description: 'Validates that the response code from the server is 200',
+      description: 'Validates that the Content-Type returned from the server is "application/json"',
       tests: {
         default: {
-          description: 'Raises a failure if the response code from the server is not 200',
-          message: 'Document content type should be "application/json", actual type returned was "{{contentType}}"',
+          description: 'Raises a failure if the Content-Type returned from the server is not "application/json"',
+          message: 'Response `Content-Type` should be `"application/json"`, actual type returned was `"{{contentType}}"`',
           sampleValues: {
             contentType: 'text/html',
           },

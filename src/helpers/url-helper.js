@@ -29,6 +29,22 @@ class UrlHelper {
     return urlObj.searchParams.get(param);
   }
 
+  static findParamInWrongCase(param, url, base) {
+    const derivedUrl = this.deriveUrl(url, base);
+    let urlObj;
+    try {
+      urlObj = new URL(derivedUrl);
+    } catch (e) {
+      return null;
+    }
+    for (const i of urlObj.searchParams.keys()) {
+      if (i !== param && i.toLowerCase() === param.toLowerCase()) {
+        return i;
+      }
+    }
+    return null;
+  }
+
   static fetch(url, options = {}, timeout = 10000) {
     let timeoutId;
     return Promise.race([

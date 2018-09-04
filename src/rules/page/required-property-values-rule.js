@@ -13,8 +13,8 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
       description: 'Validates that the feed properties conform to the correct format',
       tests: {
         state: {
-          description: 'Raises a failure if the state field isn\'t one of "updated" or "deleted"',
-          message: 'Field "state" must be of value "updated" or "deleted", but was found to be different in {{count}} items in the feed.',
+          description: 'Raises a failure if the state property isn\'t one of "updated" or "deleted"',
+          message: 'The [`state` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must be of value "updated" or "deleted", but was found to be different in {{count}} items in the feed.',
           sampleValues: {
             count: 23,
           },
@@ -23,8 +23,8 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
           type: RpdeErrorType.INVALID_FORMAT,
         },
         kind: {
-          description: 'Raises a failure if the kind field isn\'t a string in any item',
-          message: 'Field "kind" should be a string, but was found to be different in {{count}} items in the feed.',
+          description: 'Raises a failure if the kind property isn\'t a string in any item',
+          message: 'The [`kind` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must be a string, but was found to be different in {{count}} items in the feed.',
           sampleValues: {
             count: 23,
           },
@@ -34,7 +34,7 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
         },
         item: {
           description: 'Raises a failure if an item is found that isn\'t an object',
-          message: 'Items should be objects, but were found to be different in {{count}} items in the feed.',
+          message: 'Items must be objects, but were found to be different in {{count}} items in the feed.',
           sampleValues: {
             count: 23,
           },
@@ -43,8 +43,8 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
           type: RpdeErrorType.INVALID_FORMAT,
         },
         items: {
-          description: 'Raises a failure if the items field isn\'t an array',
-          message: 'Field "items" should be an array, but was found to be "{{type}}".',
+          description: 'Raises a failure if the items property isn\'t an array',
+          message: 'Required property [`items`](https://www.openactive.io/realtime-paged-data-exchange/#-response-) must be an array, but was found to be "{{type}}".',
           sampleValues: {
             type: 'string',
           },
@@ -53,8 +53,8 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
           type: RpdeErrorType.INVALID_FORMAT,
         },
         license: {
-          description: 'Raises a failure if the license field isn\'t a string',
-          message: 'Field "license" should be a string, but was found to be "{{type}}".',
+          description: 'Raises a failure if the license property isn\'t a string',
+          message: 'Required property [`license`](https://www.openactive.io/realtime-paged-data-exchange/#-response-) must be a string, but was found to be "{{type}}".',
           sampleValues: {
             type: 'object',
           },

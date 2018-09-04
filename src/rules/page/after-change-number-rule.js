@@ -17,21 +17,21 @@ class AfterChangeNumberRule extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a failure if "afterChangeNumber" isn\'t an integer',
-          message: 'If afterChangeNumber is used, it must be an integer',
+          message: 'When using the [Incrementing Unique Change Number Ordering Strategy](https://www.openactive.io/realtime-paged-data-exchange/#incrementing-unique-change-number), the parameter `afterChangeNumber` must be an integer.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.INVALID_TYPE,
         },
         modified: {
           description: 'Raises a failure if "afterChangeNumber" is used and "modified" isn\'t an integer',
-          message: 'If afterChangeNumber is used, modified must also be an integer',
+          message: 'When using the [Incrementing Unique Change Number Ordering Strategy](https://www.openactive.io/realtime-paged-data-exchange/#incrementing-unique-change-number), `modified` must be an integer.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.INVALID_TYPE,
         },
         increment: {
           description: 'Raises a failure if the afterChangeNumber doesn\'t increase with each new page',
-          message: 'The afterChangeNumber of the next url should always increase with each new page. The next URL of this page is "{{url}}"',
+          message: 'When using the [Incrementing Unique Change Number Ordering Strategy](https://www.openactive.io/realtime-paged-data-exchange/#incrementing-unique-change-number), the `afterChangeNumber` in the next url must always increase with each new page, as the primary query sorts by the change number (the `modified` property). The next URL of this page is "{{url}}".',
           sampleValues: {
             url: 'https://example.org/feed',
           },

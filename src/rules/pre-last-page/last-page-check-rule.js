@@ -14,21 +14,21 @@ class LastPageCheckRule extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a failure if the last page check cannot be carried out due to not knowing the ordering type',
-          message: 'Last page check could not be carried out, as no sample values for "afterTimestamp" or "afterChangeNumber" could be found',
+          message: 'The last page check could not be carried out, as no sample values for `afterTimestamp` or `afterChangeNumber` could be found',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.NO_LAST_PAGE_CHECK,
         },
         lastTimestamp: {
           description: 'Raises a failure if the last page check cannot be carried out due to "afterTimestamp" not being an integer',
-          message: 'Last page check could not be reliably completed, as "modified" and "afterTimestamp" values should be integers. It is recommended that these are integers to be compatible with future version of RPDE.',
+          message: 'The last page check could not be reliably completed, as `modified` and `afterTimestamp` values should be integers. It is recommended that these are integers to be compatible with future versions of RPDE.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.NO_LAST_PAGE_CHECK,
         },
         lastChangeNumber: {
           description: 'Raises a failure if the last page check cannot be carried out due to "afterChangeNumber" not being an integer',
-          message: 'Last page check could not be completed, as "afterChangeNumber" values should be an integer.',
+          message: 'The last page check could not be completed, as `afterChangeNumber` values should be integers.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.NO_LAST_PAGE_CHECK,
