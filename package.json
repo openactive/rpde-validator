@@ -1,6 +1,6 @@
 {
   "name": "@openactive/rpde-validator",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A library to walk and validate an RPDE feed",
   "homepage": "http://openactive.io",
   "author": "Pete Walker <pete@imin.co> (https://github.com/petewalker)",
@@ -26,7 +26,7 @@
     "build": "npm run build:genversion && npm run build:babel",
     "build:genversion": "genversion --es6 --semi src/version.js",
     "build:babel": "babel src --out-dir dist",
-    "postinstall": "npm run build",
+    "prepare": "npm run build",
     "lint": "eslint \"src/**/*.js\"",
     "e2e": "babel-node src/e2e.js",
     "pretest": "npm run lint",
@@ -41,7 +41,7 @@
     "jasmine": "^3.2.0"
   },
   "dependencies": {
-    "@openactive/data-model-validator": "github:openactive/data-model-validator",
+    "@openactive/data-model-validator": "^1.0.0",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
     "babel-preset-env": "^1.7.0",
