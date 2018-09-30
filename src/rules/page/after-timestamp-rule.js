@@ -62,7 +62,7 @@ class AfterTimestampRule extends RpdeRule {
           type: RpdeErrorType.AFTER_ID_WITH_TIMESTAMP,
         },
         afterIdAlternative: {
-          description: 'Raises a failure if afterId isn\'t present when afterTimestamp is, presenting an alternative error if afterID is present.',
+          description: 'Raises a failure if afterId isn\'t present when afterTimestamp is, presenting an alternative error if a misspelling of afterId is present.',
           message: 'The parameter `"{{misspelling}}"` is a common misspelling of `afterId`. Please update it to `afterId`.',
           sampleValues: {
             misspelling: 'afterID',
@@ -70,6 +70,13 @@ class AfterTimestampRule extends RpdeRule {
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.AFTER_ID_WITH_TIMESTAMP,
+        },
+        lastItemMatch: {
+          description: 'Raises a failure if the last item of a feed hasn\'t been used to construct the `next` URL property.',
+          message: '`id` and `modified` values of the last item in the page do not match those in the `next` URL. The last item in each page should be used to generate the `next` URL.',
+          category: ValidationErrorCategory.CONFORMANCE,
+          severity: ValidationErrorSeverity.FAILURE,
+          type: RpdeErrorType.LAST_ITEM_NOT_MATCHING_NEXT,
         },
       },
     };
@@ -155,6 +162,7 @@ class AfterTimestampRule extends RpdeRule {
           ),
         );
       }
+      let afterIdValue = afterId;
       if (afterId === null) {
         let afterKey = 'afterId';
         const misspelling = UrlHelper.findParamInWrongCase('afterId', node.data.next, node.url);
@@ -162,6 +170,7 @@ class AfterTimestampRule extends RpdeRule {
         if (misspelling !== null) {
           afterKey = 'afterIdAlternative';
           values = { misspelling };
+          afterIdValue = UrlHelper.getParam(misspelling, node.data.next, node.url);
         }
         node.log.addPageError(
           node.url,
@@ -174,6 +183,44 @@ class AfterTimestampRule extends RpdeRule {
             values,
           ),
         );
+      }
+
+      // Do we have a last item that matches afterId and afterTimestamp?
+      if (node.data.items.length > 0) {
+        const lastItem = jp.query(node.data, `$.items[${node.data.items.length - 1}]`)[0];
+        const lastItemModified = lastItem.modified;
+        const lastItemId = lastItem.id;
+        const lastItemCompare = {
+          afterTimestamp,
+          lastItemModified,
+          afterIdValue,
+          lastItemId,
+        };
+        for (const key in lastItemCompare) {
+          if (Object.prototype.hasOwnProperty.call(lastItemCompare, key)) {
+            if (
+              typeof lastItemCompare[key] === 'string'
+              && lastItemCompare[key].match(/^[1-9][0-9]*$/)
+            ) {
+              lastItemCompare[key] *= 1;
+            }
+          }
+        }
+        if (
+          lastItemCompare.lastItemId !== lastItemCompare.afterIdValue
+          || lastItemCompare.lastItemModified !== lastItemCompare.afterTimestamp
+        ) {
+          node.log.addPageError(
+            node.url,
+            this.createError(
+              'lastItemMatch',
+              {
+                value: node.data,
+                url: node.url,
+              },
+            ),
+          );
+        }
       }
 
       const compare = {

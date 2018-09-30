@@ -16,6 +16,7 @@ const RpdeErrorType = {
   LAST_PAGE_NO_ITEMS: 'last_page_no_items',
   LAST_PAGE_REFERENCE_SELF: 'last_page_reference_self',
   AFTER_ID_WITH_TIMESTAMP: 'after_id_with_timestamp',
+  LAST_ITEM_NOT_MATCHING_NEXT: 'last_item_not_matching_next',
   NO_MODELLING_DATA: 'no_modelling_data',
   HAS_MODELLING_DATA: 'has_modelling_data',
   HTTP_ERROR: 'http_error',
