@@ -1,6 +1,6 @@
 {
   "name": "@openactive/rpde-validator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library to walk and validate an RPDE feed",
   "homepage": "http://openactive.io",
   "author": "Pete Walker <pete@imin.co> (https://github.com/petewalker)",
