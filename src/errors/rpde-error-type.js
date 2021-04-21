@@ -6,6 +6,7 @@ const RpdeErrorType = {
   MISSING_RECOMMENDED_FIELD: 'missing_recommended_field',
   URL_SHOULD_BE_ABSOLUTE: 'url_should_be_absolute',
   INVALID_TYPE: 'invalid_type',
+  INVALID_NEXT_URL_FOR_ZERO_ITEMS: 'invalid_next_url_for_zero_items',
   INVALID_FORMAT: 'invalid_format',
   AFTER_PARAM_SHOULD_INCREASE: 'after_param_should_increase',
   NO_DUPLICATE_ITEMS: 'no_duplicate_items',
