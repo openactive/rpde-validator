@@ -5,6 +5,7 @@ import DeletedItemsRule from './page/deleted-items-rule';
 import DuplicateItemsRule from './page/duplicate-items-rule';
 import NextPageValidRule from './page/next-page-valid-rule';
 import NextPageNotCurrentPageRule from './page/next-page-not-current-page-rule';
+import NextUrlBaseUrlMatchCurrentPage from './page/next-page-base-url-match-current-page-rule';
 import RequiredPropertiesRule from './page/required-properties-rule';
 import RequiredItemPropertiesRule from './page/required-item-properties-rule';
 import RequiredPropertyValuesRule from './page/required-property-values-rule';
@@ -28,6 +29,7 @@ export default {
     DuplicateItemsRule,
     NextPageValidRule,
     NextPageNotCurrentPageRule,
+    NextUrlBaseUrlMatchCurrentPage,
     RequiredPropertiesRule,
     RequiredItemPropertiesRule,
     RequiredPropertyValuesRule,
@@ -39,6 +41,7 @@ export default {
   lastPage: [
     NextPageValidRule,
     NextPageNotCurrentPageRule,
+    NextUrlBaseUrlMatchCurrentPage,
     NoLastPageItemsRule,
     LastPageUrlIsSelfRule,
     RequiredPropertiesRule,

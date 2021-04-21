@@ -7,6 +7,7 @@ const RpdeErrorType = {
   URL_SHOULD_BE_ABSOLUTE: 'url_should_be_absolute',
   INVALID_TYPE: 'invalid_type',
   INVALID_NEXT_URL_FOR_ZERO_ITEMS: 'invalid_next_url_for_zero_items',
+  BASE_URL_MISMATCH: 'base_url_mismatch',
   INVALID_FORMAT: 'invalid_format',
   AFTER_PARAM_SHOULD_INCREASE: 'after_param_should_increase',
   NO_DUPLICATE_ITEMS: 'no_duplicate_items',

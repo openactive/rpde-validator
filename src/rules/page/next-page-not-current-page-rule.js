@@ -28,7 +28,7 @@ const NextPageNotCurrentPageRule = class extends RpdeRule {
   }
 
   validate(node) {
-    if (typeof node.data !== 'object') {
+    if (typeof node.data !== 'object' || typeof node.data.next !== 'string') {
       return;
     }
 
