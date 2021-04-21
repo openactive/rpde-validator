@@ -73,7 +73,7 @@ class AfterTimestampRule extends RpdeRule {
         },
         lastItemMatch: {
           description: 'Raises a failure if the last item of a feed hasn\'t been used to construct the `next` URL property.',
-          message: '`id` and `modified` values of the last item in the page do not match those in the `next` URL. The last item in each page should be used to generate the `next` URL.',
+          message: '`id` and `modified` values of the last item in the page do not match those in the `next` URL. The last item in each page must be used to generate the `next` URL.',
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.LAST_ITEM_NOT_MATCHING_NEXT,
