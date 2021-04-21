@@ -2,7 +2,7 @@
 
 The OpenActive RPDE validator library.
 
-[![Build Status](https://travis-ci.org/openactive/rpde-validator.svg?branch=master)](https://travis-ci.org/openactive/rpde-validator)
+[![Tests](https://github.com/openactive/rpde-validator/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/openactive/rpde-validator/actions/workflows/node.js.yml)
 [![Known Vulnerabilities](https://snyk.io/test/github/openactive/rpde-validator/badge.svg)](https://snyk.io/test/github/openactive/rpde-validator)
 
 ## Introduction
