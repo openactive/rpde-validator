@@ -300,7 +300,8 @@ class FeedChecker {
         const node = new RpdeNode(
           url,
           {
-            res,
+            contentType: res.headers.get('content-type'),
+            status: res.status,
             body,
           },
           this.log,

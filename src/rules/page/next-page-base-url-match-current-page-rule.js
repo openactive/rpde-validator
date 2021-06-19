@@ -6,19 +6,19 @@ import RpdeRule from '../../rpde-rule';
 import RpdeErrorType from '../../errors/rpde-error-type';
 import UrlHelper from '../../helpers/url-helper';
 
-const NextUrlBaseUrlMatchCurrentPage = class extends RpdeRule {
+const NextUrlBasePathMatchCurrentPage = class extends RpdeRule {
   constructor() {
     super();
     this.meta = {
-      name: 'NextUrlBaseUrlMatchCurrentPage',
-      description: 'Validates that the base URL of the next parameter is equal to the base URL of the current page',
+      name: 'NextUrlBasePathMatchCurrentPage',
+      description: 'Validates that the bath path of the next parameter is equal to the bath path of the current page',
       tests: {
         default: {
-          description: 'Raises a failure if the base URL of the next parameter is not equal to the base URL of the current page',
-          message: 'The base URL of the `next` property `"{{nextBaseUrl}}"` must be equal to the base URL of the page `"{{currentBaseUrl}}"`.',
+          description: 'Raises a failure if the bath path of the next parameter is not equal to the bath path of the current page',
+          message: 'The bath path of the `next` property `"{{nextBasePath}}"` must be equal to the bath path of the page `"{{currentBasePath}}"`.',
           sampleValues: {
-            nextBaseUrl: 'http://example.com/',
-            currentBaseUrl: 'https://example.com/',
+            nextBasePath: 'http://example.com/',
+            currentBasePath: 'https://example.com/',
           },
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
@@ -33,13 +33,13 @@ const NextUrlBaseUrlMatchCurrentPage = class extends RpdeRule {
       return;
     }
 
-    const getBaseUrl = url => url.substring(0, url.indexOf('/', url.indexOf('//') + 2));
+    const getBasePath = url => url.split('?')[0];
 
-    const baseUrlCurrentPage = getBaseUrl(node.url);
-    const baseUrlNextPage = getBaseUrl(node.data.next);
+    const basePathCurrentPage = getBasePath(node.url);
+    const basePathNextPage = getBasePath(node.data.next);
 
-    // The base URL of the next URL must always be equal to the base URL of the current page
-    if (baseUrlCurrentPage !== baseUrlNextPage) {
+    // The bath path of the next URL must always be equal to the bath path of the current page
+    if (basePathCurrentPage !== basePathNextPage) {
       node.log.addPageError(
         node.url,
         this.createError(
@@ -49,8 +49,8 @@ const NextUrlBaseUrlMatchCurrentPage = class extends RpdeRule {
             url: node.url,
           },
           {
-            currentBaseUrl: baseUrlCurrentPage,
-            nextBaseUrl: baseUrlNextPage,
+            currentBasePath: basePathCurrentPage,
+            nextBasePath: basePathNextPage,
           },
         ),
       );
@@ -58,4 +58,4 @@ const NextUrlBaseUrlMatchCurrentPage = class extends RpdeRule {
   }
 };
 
-export default NextUrlBaseUrlMatchCurrentPage;
+export default NextUrlBasePathMatchCurrentPage;

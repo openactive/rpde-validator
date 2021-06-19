@@ -31,7 +31,7 @@ const ValidJsonObjectRule = class extends RpdeRule {
     let data;
     let error;
     try {
-      data = JSON.parse(node.data.body);
+      data = typeof node.data.body === 'object' ? node.data.body : JSON.parse(node.data.body);
     } catch (e) {
       error = `${e.name}: ${e.message}`;
       data = null;

@@ -27,7 +27,7 @@ const HttpContentTypeRule = class extends RpdeRule {
   }
 
   validate(node) {
-    const contentType = node.data.res.headers.get('content-type');
+    const { contentType } = node.data;
     if (!contentType.match(/^application\/json/)) {
       node.log.addPageError(
         node.url,

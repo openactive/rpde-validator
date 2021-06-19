@@ -13,11 +13,7 @@ describe('HttpContentTypeRule', () => {
     log = new FeedLog();
     spyOn(log, 'addPageError').and.callThrough();
     data = {
-      res: {
-        headers: {
-          get: () => 'application/json',
-        },
-      },
+      contentType: 'application/json',
     };
     rule = new HttpContentTypeRule();
   });
@@ -35,7 +31,7 @@ describe('HttpContentTypeRule', () => {
   });
 
   it('should raise an error when the content type is not application/json', () => {
-    data.res.headers.get = (() => 'text/html');
+    data.contentType = 'text/html';
     const node = new RpdeNode(
       url,
       data,

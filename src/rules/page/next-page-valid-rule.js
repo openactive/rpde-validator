@@ -32,7 +32,7 @@ const NextPageValidRule = class extends RpdeRule {
       return;
     }
 
-    // The next URL should be an absolute not relative URL
+    // The next URL must be an absolute not relative URL
     if (
       typeof node.data.next !== 'string'
       || !UrlHelper.isUrl(node.data.next)

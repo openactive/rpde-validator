@@ -13,9 +13,7 @@ describe('HttpStatusRule', () => {
     log = new FeedLog();
     spyOn(log, 'addPageError').and.callThrough();
     data = {
-      res: {
-        status: 200,
-      },
+      status: 200,
     };
     rule = new HttpStatusRule();
   });
@@ -33,7 +31,7 @@ describe('HttpStatusRule', () => {
   });
 
   it('should raise an error when the status is not 200', () => {
-    data.res.status = 500;
+    data.status = 500;
     const node = new RpdeNode(
       url,
       data,

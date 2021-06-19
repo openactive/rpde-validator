@@ -1,13 +1,13 @@
-import NextUrlBaseUrlMatchCurrentPage from './next-page-base-url-match-current-page-rule';
+import NextUrlBasePathMatchCurrentPage from './next-page-base-url-match-current-page-rule';
 import FeedLog from '../../feed-log';
 import RpdeNode from '../../rpde-node';
 import RpdeErrorType from '../../errors/rpde-error-type';
 
-describe('NextUrlBaseUrlMatchCurrentPage', () => {
+describe('NextUrlBasePathMatchCurrentPage', () => {
   let log;
   let rule;
   let json;
-  const url = 'http://example.org/feed?afterChangeNumber=1234&afterId=1234';
+  const url = 'https://example.org/feed?afterChangeNumber=1234&afterId=1234';
 
   beforeEach(() => {
     log = new FeedLog();
@@ -16,7 +16,7 @@ describe('NextUrlBaseUrlMatchCurrentPage', () => {
       next: url,
       items: [],
     };
-    rule = new NextUrlBaseUrlMatchCurrentPage();
+    rule = new NextUrlBasePathMatchCurrentPage();
   });
 
   it('should raise no error when the base URL of the next parameter is equal to the base URL of the current page', () => {
@@ -32,7 +32,7 @@ describe('NextUrlBaseUrlMatchCurrentPage', () => {
   });
 
   it('should raise an error when the base URL of the next parameter is not equal to the base URL of the current page', () => {
-    json.next = 'https://example.org/feed?afterChangeNumber=1234&afterId=1234';
+    json.next = 'https://example.org/feed2?afterChangeNumber=1234&afterId=1234';
     const node = new RpdeNode(
       url,
       json,

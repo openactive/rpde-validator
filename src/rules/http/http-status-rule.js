@@ -27,7 +27,7 @@ const HttpStatusRule = class extends RpdeRule {
   }
 
   validate(node) {
-    if (node.data.res.status !== 200) {
+    if (node.data.status !== 200) {
       node.log.addPageError(
         node.url,
         this.createError(
@@ -37,7 +37,7 @@ const HttpStatusRule = class extends RpdeRule {
             url: node.url,
           },
           {
-            status: node.data.res.status,
+            status: node.data.status,
           },
         ),
       );
