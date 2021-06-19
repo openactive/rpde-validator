@@ -30,6 +30,19 @@ describe('HttpContentTypeRule', () => {
     expect(log.addPageError).not.toHaveBeenCalled();
   });
 
+  it('should raise no error when the content type is application/vnd.openactive.booking+json; version=1', () => {
+    data.contentType = 'application/vnd.openactive.booking+json; version=1';
+    const node = new RpdeNode(
+      url,
+      data,
+      log,
+    );
+
+    rule.validate(node);
+
+    expect(log.addPageError).not.toHaveBeenCalled();
+  });
+
   it('should raise an error when the content type is not application/json', () => {
     data.contentType = 'text/html';
     const node = new RpdeNode(
