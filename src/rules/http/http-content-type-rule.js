@@ -14,7 +14,7 @@ const HttpContentTypeRule = class extends RpdeRule {
       tests: {
         default: {
           description: 'Raises a failure if the Content-Type returned from the server is not "application/json" or "application/vnd.openactive.booking+json"',
-          message: 'Response `Content-Type` should be `"application/json"` (or "application/vnd.openactive.booking+json; version=1" for Open Booking API Orders Feeds), actual type returned was `"{{contentType}}"`',
+          message: 'Response `Content-Type` should be `"application/json"` or `"application/vnd.openactive.rpde+json; version=1"` (or "application/vnd.openactive.booking+json; version=1" for Open Booking API Orders Feeds), actual type returned was `"{{contentType}}"`',
           sampleValues: {
             contentType: 'text/html',
           },
@@ -28,7 +28,7 @@ const HttpContentTypeRule = class extends RpdeRule {
 
   validate(node) {
     const { contentType } = node.data;
-    if (!contentType.match(/^application\/json/) && !contentType.match(/^application\/vnd\.openactive\.booking\+json/)) {
+    if (!contentType.match(/^application\/json/) && !contentType.match(/^application\/vnd\.openactive\.rpde\+json/) && !contentType.match(/^application\/vnd\.openactive\.booking\+json/)) {
       node.log.addPageError(
         node.url,
         this.createError(
