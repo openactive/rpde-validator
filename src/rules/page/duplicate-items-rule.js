@@ -31,7 +31,7 @@ const DuplicateItemsRule = class extends RpdeRule {
   }
 
   validate(node) {
-    if (typeof node.data !== 'object') {
+    if (typeof node.data !== 'object' || node.isInitialHarvestComplete) {
       return;
     }
     const ids = jp.query(node.data, '$.items[*].id');
