@@ -2,6 +2,7 @@ const RpdeErrorType = {
   INVALID_JSON: 'invalid_json',
   NO_DELETED_ITEMS: 'no_deleted_items',
   MISSING_REQUIRED_FIELD: 'missing_required_field',
+  FIELD_NOT_ALLOWED: 'field_not_allowed',
   NO_DATA_IN_DELETED_ITEM: 'no_data_in_deleted_item',
   MISSING_RECOMMENDED_FIELD: 'missing_recommended_field',
   URL_SHOULD_BE_ABSOLUTE: 'url_should_be_absolute',

@@ -84,6 +84,21 @@ describe('FeedPageChecker', () => {
     expect(errors[1].type).toBe(RpdeErrorType.INVALID_JSON);
   });
 
+  it('should raise an error with invalid content type for an Orders feed with content-type `application/json`', () => {
+    const errors = checker.validateRpdePage({
+      url: 'https://www.example.com/api/rpde/sessions?afterTimestamp=1521565719&afterId=1402CBP20150217',
+      json: '<html></html>',
+      pageIndex: 10,
+      contentType: 'application/json',
+      status: 200,
+      isOrdersFeed: true,
+    });
+
+    expect(errors.length).toBe(2);
+    expect(errors[0].type).toBe(RpdeErrorType.INVALID_CONTENT_TYPE);
+    expect(errors[1].type).toBe(RpdeErrorType.INVALID_JSON);
+  });
+
   it('should raise an error with invalid status', () => {
     const errors = checker.validateRpdePage({
       url: 'https://www.example.com/api/rpde/sessions?afterTimestamp=1521565719&afterId=1402CBP20150217',

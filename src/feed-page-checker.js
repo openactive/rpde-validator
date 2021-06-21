@@ -21,7 +21,7 @@ class FeedPageChecker {
   }
 
   validateRpdePage({
-    url, json, pageIndex, contentType, status, isInitialHarvestComplete,
+    url, json, pageIndex, contentType, status, isInitialHarvestComplete, isOrdersFeed,
   }) {
     const log = new FeedLog(url);
 
@@ -38,6 +38,7 @@ class FeedPageChecker {
       pageIndex,
       isLastPage,
       isInitialHarvestComplete,
+      isOrdersFeed,
     );
 
     if (isLastPage) {
@@ -58,6 +59,10 @@ class FeedPageChecker {
         body: json,
       },
       log,
+      undefined,
+      undefined,
+      undefined,
+      isOrdersFeed,
     );
 
     for (const rule of this.httpRules) {
