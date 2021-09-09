@@ -89,7 +89,7 @@ describe('RequiredItemPropertiesRule', () => {
     expect(log.pages.length).toBe(1);
     expect(log.pages[0].errors.length).toBe(1);
     for (const error of log.pages[0].errors) {
-      expect(error.type).toBe(RpdeErrorType.MISSING_REQUIRED_FIELD);
+      expect(error.type).toBe(RpdeErrorType.MISSING_DATA_IN_UPDATED_ITEM);
     }
   });
   it('should raise an error when the data field is present in a deleted item', () => {
@@ -114,7 +114,7 @@ describe('RequiredItemPropertiesRule', () => {
     expect(log.pages.length).toBe(1);
     expect(log.pages[0].errors.length).toBe(1);
     for (const error of log.pages[0].errors) {
-      expect(error.type).toBe(RpdeErrorType.NO_DATA_IN_DELETED_ITEM);
+      expect(error.type).toBe(RpdeErrorType.UNNECESSARY_DATA_IN_DELETED_ITEM);
     }
   });
 });

@@ -23,15 +23,25 @@ const RequiredItemPropertiesRule = class extends RpdeRule {
           severity: ValidationErrorSeverity.FAILURE,
           type: RpdeErrorType.MISSING_REQUIRED_FIELD,
         },
-        noData: {
-          description: 'Raises a failure if the data property is present on a deleted item',
-          message: 'The [`data` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must not be present on deleted items, but was found in {{count}} deleted items in the feed.',
+        missingData: {
+          description: 'Raises a failure if the data property is missing on an updated item',
+          message: 'The [`data` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must be present on "updated" items, but was missing in {{count}} "updated" items in the feed.',
           sampleValues: {
             count: 23,
           },
           category: ValidationErrorCategory.CONFORMANCE,
           severity: ValidationErrorSeverity.FAILURE,
-          type: RpdeErrorType.NO_DATA_IN_DELETED_ITEM,
+          type: RpdeErrorType.MISSING_DATA_IN_UPDATED_ITEM,
+        },
+        unnecessaryData: {
+          description: 'Raises a failure if the data property is present on a deleted item',
+          message: 'The [`data` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must not be present on "deleted" items, but was found in {{count}} "deleted" items in the feed.',
+          sampleValues: {
+            count: 23,
+          },
+          category: ValidationErrorCategory.CONFORMANCE,
+          severity: ValidationErrorSeverity.FAILURE,
+          type: RpdeErrorType.UNNECESSARY_DATA_IN_DELETED_ITEM,
         },
       },
     };
@@ -54,16 +64,11 @@ const RequiredItemPropertiesRule = class extends RpdeRule {
     ];
 
     const missingProps = {};
-    let noDataCount = 0;
+    let missingDataCount = 0;
+    let unnecessaryDataCount = 0;
 
     for (const item of node.data.items) {
       const testProps = props.slice();
-      if (
-        typeof item.state !== 'undefined'
-        && item.state === 'updated'
-      ) {
-        testProps.push('data');
-      }
       for (const prop of testProps) {
         if (typeof item[prop] === 'undefined') {
           if (typeof missingProps[prop] === 'undefined') {
@@ -73,11 +78,16 @@ const RequiredItemPropertiesRule = class extends RpdeRule {
         }
       }
       if (
-        typeof item.state !== 'undefined'
-        && item.state === 'deleted'
+        item.state === 'updated'
+        && typeof item.data === 'undefined'
+      ) {
+        missingDataCount += 1;
+      }
+      if (
+        item.state === 'deleted'
         && typeof item.data !== 'undefined'
       ) {
-        noDataCount += 1;
+        unnecessaryDataCount += 1;
       }
     }
 
@@ -100,17 +110,32 @@ const RequiredItemPropertiesRule = class extends RpdeRule {
       }
     }
 
-    if (noDataCount > 0) {
+    if (missingDataCount > 0) {
       node.log.addPageError(
         node.url,
         this.createError(
-          'noData',
+          'missingData',
           {
             value: node.data,
             url: node.url,
           },
           {
-            count: noDataCount,
+            count: missingDataCount,
+          },
+        ),
+      );
+    }
+    if (unnecessaryDataCount > 0) {
+      node.log.addPageError(
+        node.url,
+        this.createError(
+          'unnecessaryData',
+          {
+            value: node.data,
+            url: node.url,
+          },
+          {
+            count: unnecessaryDataCount,
           },
         ),
       );
