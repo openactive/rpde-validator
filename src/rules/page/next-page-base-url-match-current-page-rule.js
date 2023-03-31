@@ -33,7 +33,7 @@ const NextUrlBasePathMatchCurrentPage = class extends RpdeRule {
       return;
     }
 
-    const getBasePath = url => url.split('?')[0];
+    const getBasePath = (url) => url.split('?')[0];
 
     const basePathCurrentPage = getBasePath(node.url);
     const basePathNextPage = getBasePath(node.data.next);
