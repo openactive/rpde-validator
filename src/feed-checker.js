@@ -64,16 +64,12 @@ class FeedChecker {
   logMessage(msg, extra = {}) {
     if (typeof this.logCallback === 'function') {
       this.logCallback(
-        Object.assign(
-          {
-            percentage: this.percentageComplete(),
-            verbosity: 1,
-          },
-          extra,
-          {
-            message: msg,
-          },
-        ),
+        {
+          percentage: this.percentageComplete(),
+          verbosity: 1,
+          ...extra,
+          message: msg,
+        },
       );
     }
   }

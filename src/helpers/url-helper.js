@@ -72,8 +72,7 @@ class UrlHelper {
 }
 
 // Source: adapted from https://gist.github.com/dperini/729294
-UrlHelper.URL_REGEX = new RegExp(
-  '^'
+UrlHelper.URL_REGEX = new RegExp('^'
     // protocol identifier (mandatory)
     // short syntax // not permitted
     + '(?:(?:https?):\\/\\/)'
@@ -107,7 +106,6 @@ UrlHelper.URL_REGEX = new RegExp(
     + '(?::\\d{2,5})?'
     // resource path (optional)
     + '(?:[/?#]\\S*)?'
-  + '$', 'i',
-);
+  + '$', 'i');
 
 export default UrlHelper;

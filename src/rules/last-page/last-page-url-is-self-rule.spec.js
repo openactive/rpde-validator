@@ -44,7 +44,7 @@ describe('LastPageUrlIsSelfRule', () => {
     );
     node.previousNode = new RpdeNode(
       url,
-      Object.assign({}, json, { next: `${url}?afterChangeNumber=1235` }),
+      ({ ...json, next: `${url}?afterChangeNumber=1235` }),
       log,
     );
 
