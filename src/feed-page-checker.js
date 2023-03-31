@@ -21,7 +21,7 @@ class FeedPageChecker {
   }
 
   validateRpdePage({
-    url, json, pageIndex, contentType, status, isInitialHarvestComplete, isOrdersFeed,
+    url, json, pageIndex, contentType, cacheControl, status, isInitialHarvestComplete, isOrdersFeed,
   }) {
     const log = new FeedLog(url);
 
@@ -31,12 +31,23 @@ class FeedPageChecker {
       && json.items.length === 0
     );
 
+    const cacheControlHeaderParser = (cacheControlHeader) => {
+      const maxAge = Number(/public,.*max-age=(?<maxAge>[0-9]+)/.exec(cacheControlHeader)?.groups.maxAge);
+      return {
+        isCachedPage: maxAge > 0,
+        maxAge,
+      };
+    };
+
+    const cacheControlComponents = cacheControlHeaderParser(cacheControl);
+
     const node = new RpdeNode(
       url,
       json,
       log,
       pageIndex,
       isLastPage,
+      cacheControlComponents,
       isInitialHarvestComplete,
       isOrdersFeed,
     );
@@ -55,12 +66,14 @@ class FeedPageChecker {
       url,
       {
         contentType,
+        cacheControl,
         status,
         body: json,
       },
       log,
       undefined,
-      undefined,
+      isLastPage,
+      cacheControlComponents,
       undefined,
       isOrdersFeed,
     );
