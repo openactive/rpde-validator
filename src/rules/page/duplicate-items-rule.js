@@ -16,8 +16,8 @@ const DuplicateItemsRule = class extends RpdeRule {
       description: 'Validates that the feed contains no duplicate items',
       tests: {
         default: {
-          description: 'Raises a failure if a duplicate item is found at any point in the feed',
-          message: 'Items must not appear more than once in the feed unless that item is updated while validation is in progress. If this error appears consistently, check the sort order is correct in the primary query. Found duplicate id `"{{id}}"` in {{url}}.',
+          description: 'Raises a failure if a duplicate item is found at any point in the feed, and caching has not been implemented',
+          message: 'Items must not appear more than once in the feed unless that item is updated while validation is in progress. If this error appears consistently, check the sort order is correct in the primary query. If feed pages are being cached, ensure a `Cache-Control` header is provided. Found duplicate id `"{{id}}"` in {{url}}.',
           sampleValues: {
             id: 'ABC123',
             url: 'http://example.org/feed',
@@ -31,7 +31,7 @@ const DuplicateItemsRule = class extends RpdeRule {
   }
 
   validate(node) {
-    if (typeof node.data !== 'object' || node.isInitialHarvestComplete) {
+    if (typeof node.data !== 'object' || node.isInitialHarvestComplete || node.cacheControlComponents?.isCachedPage) {
       return;
     }
     const ids = jp.query(node.data, '$.items[*].id');

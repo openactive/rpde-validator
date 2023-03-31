@@ -16,6 +16,7 @@ import LastPageUrlIsSelfRule from './last-page/last-page-url-is-self-rule';
 
 import HttpStatusRule from './http/http-status-rule';
 import HttpContentTypeRule from './http/http-content-type-rule';
+import HttpCacheHeaderRule from './http/http-cache-header-rule';
 import ValidJsonObjectRule from './http/valid-json-object-rule';
 
 import LastPageCheckRule from './pre-last-page/last-page-check-rule';
@@ -52,5 +53,6 @@ export default {
     HttpStatusRule,
     HttpContentTypeRule,
     ValidJsonObjectRule,
+    HttpCacheHeaderRule,
   ],
 };
