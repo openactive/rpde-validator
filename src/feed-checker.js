@@ -10,7 +10,7 @@ const Rules = require('./rules');
 const LastPageHelper = require('./helpers/last-page-helper');
 const UrlHelper = require('./helpers/url-helper');
 const RpdeErrorType = require('./errors/rpde-error-type');
-const { version } = require('./../package.json');
+const { version } = require('../package.json');
 
 class FeedChecker {
   constructor(url, options = {}) {

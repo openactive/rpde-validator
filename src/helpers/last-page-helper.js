@@ -47,4 +47,4 @@ module.exports = class LastPageHelper {
   static calculateLastPageChangeNumber() {
     return Number.MAX_SAFE_INTEGER;
   }
-}
+};
