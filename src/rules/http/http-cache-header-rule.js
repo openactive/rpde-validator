@@ -1,3 +1,4 @@
+const { parse: parseCacheControlHeader } = require('cache-parser');
 const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
@@ -48,10 +49,10 @@ const HttpCacheHeaderRule = class extends RpdeRule {
 
   validate(node) {
     const { cacheControl } = node.data;
-    const { isCachedPage, maxAge } = node.cacheControlComponents;
+    const { public: isCacheable, maxAge } = parseCacheControlHeader(cacheControl);
 
     if (!node.isOrdersFeed) {
-      if (node.isLastPage && (!isCachedPage || maxAge > 8)) {
+      if (node.isLastPage && (!isCacheable || maxAge > 8)) {
         node.log.addPageError(
           node.url,
           this.createError(
@@ -65,7 +66,7 @@ const HttpCacheHeaderRule = class extends RpdeRule {
             },
           ),
         );
-      } else if (!node.isLastPage && (!isCachedPage || maxAge < 3600)) {
+      } else if (!node.isLastPage && (!isCacheable || maxAge < 3600)) {
         node.log.addPageError(
           node.url,
           this.createError(
@@ -80,7 +81,7 @@ const HttpCacheHeaderRule = class extends RpdeRule {
           ),
         );
       }
-    } else if (isCachedPage) {
+    } else if (isCacheable) {
       node.log.addPageError(
         node.url,
         this.createError(

@@ -1,3 +1,4 @@
+const { parse: parseCacheControlHeader } = require('cache-parser');
 const FeedLog = require('./feed-log');
 const RpdeNode = require('./rpde-node');
 const Rules = require('./rules');
@@ -31,15 +32,8 @@ class FeedPageChecker {
       && json.items.length === 0
     );
 
-    const cacheControlHeaderParser = (cacheControlHeader) => {
-      const maxAge = Number(/public,.*max-age=(?<maxAge>[0-9]+)/.exec(cacheControlHeader)?.groups.maxAge);
-      return {
-        isCachedPage: maxAge > 0,
-        maxAge,
-      };
-    };
-
-    const cacheControlComponents = cacheControlHeaderParser(cacheControl);
+    // Item duplication is only permissible if Test Suite harvesting is complete (and therefore state change is expected within the underlying booking system), or if RPDE page caching is in place
+    const isItemDuplicationPermissible = isInitialHarvestComplete || parseCacheControlHeader(cacheControl)?.public;
 
     const node = new RpdeNode(
       url,
@@ -47,8 +41,7 @@ class FeedPageChecker {
       log,
       pageIndex,
       isLastPage,
-      cacheControlComponents,
-      isInitialHarvestComplete,
+      isItemDuplicationPermissible,
       isOrdersFeed,
     );
 
@@ -73,8 +66,7 @@ class FeedPageChecker {
       log,
       undefined,
       isLastPage,
-      cacheControlComponents,
-      undefined,
+      isItemDuplicationPermissible,
       isOrdersFeed,
     );
 

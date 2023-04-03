@@ -31,7 +31,7 @@ const DuplicateItemsRule = class extends RpdeRule {
   }
 
   validate(node) {
-    if (typeof node.data !== 'object' || node.isInitialHarvestComplete || node.cacheControlComponents?.isCachedPage) {
+    if (typeof node.data !== 'object' || node.isItemDuplicationPermissible) {
       return;
     }
     const ids = jp.query(node.data, '$.items[*].id');

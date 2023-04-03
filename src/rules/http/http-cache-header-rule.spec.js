@@ -1,9 +1,9 @@
-const HttpContentTypeRule = require('./http-content-type-rule');
+const HttpCacheHeaderRule = require('./http-cache-header-rule');
 const FeedLog = require('../../feed-log');
 const RpdeNode = require('../../rpde-node');
 const RpdeErrorType = require('../../errors/rpde-error-type');
 
-describe('HttpContentTypeRule', () => {
+describe('HttpCacheHeaderRule', () => {
   let log;
   let rule;
   let data;
@@ -16,7 +16,7 @@ describe('HttpContentTypeRule', () => {
       contentType: 'application/json',
       cacheControl: 'public, max-age=3600',
     };
-    rule = new HttpContentTypeRule();
+    rule = new HttpCacheHeaderRule();
   });
 
   it('should raise no error when the Cache-Control is "public, max-age=3600" for a page that is not the last page', () => {
@@ -80,12 +80,15 @@ describe('HttpContentTypeRule', () => {
   });
 
   it('should raise no error when the Cache-Control is "private" for an Orders feed', () => {
-    data.contentType = 'application/vnd.openactive.rpde+json; version=1';
     data.cacheControl = 'private';
     const node = new RpdeNode(
       url,
       data,
       log,
+      undefined,
+      undefined,
+      undefined,
+      true, // isOrdersFeed
     );
 
     rule.validate(node);
@@ -94,11 +97,14 @@ describe('HttpContentTypeRule', () => {
   });
 
   it('should raise an error when the Cache-Control is "public, max-age=3600" for an Orders feed', () => {
-    data.contentType = 'application/vnd.openactive.rpde+json; version=1';
     const node = new RpdeNode(
       url,
       data,
       log,
+      undefined,
+      undefined,
+      undefined,
+      true, // isOrdersFeed
     );
 
     rule.validate(node);

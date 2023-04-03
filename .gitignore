@@ -77,6 +77,3 @@ typings/
 
 # OSX
 .DS_Store
-
-# Dist
-dist
