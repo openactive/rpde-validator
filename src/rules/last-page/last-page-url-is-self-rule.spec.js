@@ -1,7 +1,7 @@
-import LastPageUrlIsSelfRule from './last-page-url-is-self-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const LastPageUrlIsSelfRule = require('./last-page-url-is-self-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('LastPageUrlIsSelfRule', () => {
   let log;
@@ -44,7 +44,7 @@ describe('LastPageUrlIsSelfRule', () => {
     );
     node.previousNode = new RpdeNode(
       url,
-      Object.assign({}, json, { next: `${url}?afterChangeNumber=1235` }),
+      ({ ...json, next: `${url}?afterChangeNumber=1235` }),
       log,
     );
 

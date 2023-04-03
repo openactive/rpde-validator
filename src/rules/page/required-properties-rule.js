@@ -1,9 +1,9 @@
-import {
+const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
-} from '@openactive/data-model-validator';
-import RpdeRule from '../../rpde-rule';
-import RpdeErrorType from '../../errors/rpde-error-type';
+} = require('@openactive/data-model-validator');
+const RpdeRule = require('../../rpde-rule');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 const RequiredPropertiesRule = class extends RpdeRule {
   constructor() {
@@ -84,4 +84,4 @@ const RequiredPropertiesRule = class extends RpdeRule {
   }
 };
 
-export default RequiredPropertiesRule;
+module.exports = RequiredPropertiesRule;

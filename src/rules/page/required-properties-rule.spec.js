@@ -1,7 +1,7 @@
-import RequiredPropertiesRule from './required-properties-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const RequiredPropertiesRule = require('./required-properties-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('RequiredPropertiesRule', () => {
   let log;

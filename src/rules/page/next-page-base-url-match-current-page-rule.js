@@ -1,10 +1,10 @@
-import {
+const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
-} from '@openactive/data-model-validator';
-import RpdeRule from '../../rpde-rule';
-import RpdeErrorType from '../../errors/rpde-error-type';
-import UrlHelper from '../../helpers/url-helper';
+} = require('@openactive/data-model-validator');
+const RpdeRule = require('../../rpde-rule');
+const RpdeErrorType = require('../../errors/rpde-error-type');
+const UrlHelper = require('../../helpers/url-helper');
 
 const NextUrlBasePathMatchCurrentPage = class extends RpdeRule {
   constructor() {
@@ -33,7 +33,7 @@ const NextUrlBasePathMatchCurrentPage = class extends RpdeRule {
       return;
     }
 
-    const getBasePath = url => url.split('?')[0];
+    const getBasePath = (url) => url.split('?')[0];
 
     const basePathCurrentPage = getBasePath(node.url);
     const basePathNextPage = getBasePath(node.data.next);
@@ -58,4 +58,4 @@ const NextUrlBasePathMatchCurrentPage = class extends RpdeRule {
   }
 };
 
-export default NextUrlBasePathMatchCurrentPage;
+module.exports = NextUrlBasePathMatchCurrentPage;

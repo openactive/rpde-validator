@@ -22,7 +22,7 @@ $ npm install @openactive/rpde-validator
 ### Usage
 
 ```js
-import { RpdeValidator } from '@openactive/rpde-validator';
+const { RpdeValidator } = require('@openactive/rpde-validator');
 
 RpdeValidator(
   url, // The URL of the feed to test

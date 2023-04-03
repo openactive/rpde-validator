@@ -1,16 +1,16 @@
-import {
+const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
   ValidationError,
-} from '@openactive/data-model-validator';
-import { URL } from 'url';
-import FeedLog from './feed-log';
-import RpdeNode from './rpde-node';
-import Rules from './rules';
-import LastPageHelper from './helpers/last-page-helper';
-import UrlHelper from './helpers/url-helper';
-import { version } from './version';
-import RpdeErrorType from './errors/rpde-error-type';
+} = require('@openactive/data-model-validator');
+const { URL } = require('url');
+const FeedLog = require('./feed-log');
+const RpdeNode = require('./rpde-node');
+const Rules = require('./rules');
+const LastPageHelper = require('./helpers/last-page-helper');
+const UrlHelper = require('./helpers/url-helper');
+const RpdeErrorType = require('./errors/rpde-error-type');
+const { version } = require('../package.json');
 
 class FeedChecker {
   constructor(url, options = {}) {
@@ -64,16 +64,12 @@ class FeedChecker {
   logMessage(msg, extra = {}) {
     if (typeof this.logCallback === 'function') {
       this.logCallback(
-        Object.assign(
-          {
-            percentage: this.percentageComplete(),
-            verbosity: 1,
-          },
-          extra,
-          {
-            message: msg,
-          },
-        ),
+        {
+          percentage: this.percentageComplete(),
+          verbosity: 1,
+          ...extra,
+          message: msg,
+        },
       );
     }
   }
@@ -88,7 +84,7 @@ class FeedChecker {
 
   walk(urlOverride) {
     const url = urlOverride || this.url;
-    return this.load(url)
+    return this.load(url, false)
       .then((json) => {
         if (typeof json !== 'object' || json === null) {
           return null;
@@ -225,7 +221,7 @@ class FeedChecker {
     }
 
     if (hasUrl) {
-      return this.load(lastPageUrl)
+      return this.load(lastPageUrl, true)
         .then((json) => {
           const lastPageNode = new RpdeNode(
             lastPageUrl,
@@ -250,7 +246,7 @@ class FeedChecker {
           if (typeof json === 'object' && typeof json.next !== 'undefined') {
             const nextUrlRaw = UrlHelper.deriveUrl(json.next, lastPageUrl);
 
-            return this.load(nextUrlRaw)
+            return this.load(nextUrlRaw, true)
               .then((nextJson) => {
                 const nextNode = new RpdeNode(
                   nextUrlRaw,
@@ -280,7 +276,7 @@ class FeedChecker {
     return null;
   }
 
-  load(url) {
+  load(url, isLastPage) {
     this.logMessage(`Loading ${url}...`);
     this.log.addPage(url);
     const options = {
@@ -301,10 +297,13 @@ class FeedChecker {
           url,
           {
             contentType: res.headers.get('content-type'),
+            cacheControl: res.headers.get('Cache-Control'),
             status: res.status,
             body,
           },
           this.log,
+          undefined,
+          isLastPage,
         );
 
         this.logMessage(`Applying HTTP rules to ${url}`);
@@ -348,4 +347,4 @@ class FeedChecker {
   }
 }
 
-export default FeedChecker;
+module.exports = FeedChecker;

@@ -78,5 +78,5 @@ typings/
 # OSX
 .DS_Store
 
-# Dist
-dist
+# Local bash history
+bash_history.txt

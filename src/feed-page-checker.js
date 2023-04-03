@@ -1,6 +1,7 @@
-import FeedLog from './feed-log';
-import RpdeNode from './rpde-node';
-import Rules from './rules';
+const { parse: parseCacheControlHeader } = require('cache-parser');
+const FeedLog = require('./feed-log');
+const RpdeNode = require('./rpde-node');
+const Rules = require('./rules');
 
 class FeedPageChecker {
   constructor() {
@@ -21,7 +22,7 @@ class FeedPageChecker {
   }
 
   validateRpdePage({
-    url, json, pageIndex, contentType, status, isInitialHarvestComplete, isOrdersFeed,
+    url, json, pageIndex, contentType, cacheControl, status, isInitialHarvestComplete, isOrdersFeed,
   }) {
     const log = new FeedLog(url);
 
@@ -31,13 +32,17 @@ class FeedPageChecker {
       && json.items.length === 0
     );
 
+    // Item duplication is only permissible if Test Suite harvesting is complete (and therefore state change is expected within the underlying booking system), or if RPDE page caching is in place
+    const cacheControlComponents = parseCacheControlHeader(cacheControl) || {};
+    const isItemDuplicationPermissible = isInitialHarvestComplete || cacheControlComponents.public;
+
     const node = new RpdeNode(
       url,
       json,
       log,
       pageIndex,
       isLastPage,
-      isInitialHarvestComplete,
+      isItemDuplicationPermissible,
       isOrdersFeed,
     );
 
@@ -55,13 +60,14 @@ class FeedPageChecker {
       url,
       {
         contentType,
+        cacheControl,
         status,
         body: json,
       },
       log,
       undefined,
-      undefined,
-      undefined,
+      isLastPage,
+      isItemDuplicationPermissible,
       isOrdersFeed,
     );
 
@@ -69,8 +75,8 @@ class FeedPageChecker {
       rule.validate(rawNode);
     }
 
-    return log.pages.flatMap(page => page.errors).filter(error => error.severity === 'failure');
+    return log.pages.flatMap((page) => page.errors).filter((error) => error.severity === 'failure');
   }
 }
 
-export default FeedPageChecker;
+module.exports = FeedPageChecker;

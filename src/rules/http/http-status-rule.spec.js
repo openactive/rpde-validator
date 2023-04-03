@@ -1,7 +1,7 @@
-import HttpStatusRule from './http-status-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const HttpStatusRule = require('./http-status-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('HttpStatusRule', () => {
   let log;

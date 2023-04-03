@@ -1,13 +1,13 @@
 class RpdeNode {
-  constructor(url, data, log, pageIndex, isLastPage, isInitialHarvestComplete, isOrdersFeed) {
+  constructor(url, data, log, pageIndex, isLastPage, isItemDuplicationPermissible, isOrdersFeed) {
     this.url = url;
     this.data = data;
     this.log = log;
     this.pageIndex = pageIndex;
     this.isLastPage = isLastPage;
-    this.isInitialHarvestComplete = isInitialHarvestComplete;
+    this.isItemDuplicationPermissible = isItemDuplicationPermissible;
     this.isOrdersFeed = isOrdersFeed;
   }
 }
 
-export default RpdeNode;
+module.exports = RpdeNode;

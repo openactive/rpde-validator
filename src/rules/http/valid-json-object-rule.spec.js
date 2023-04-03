@@ -1,7 +1,7 @@
-import ValidJsonObjectRule from './valid-json-object-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const ValidJsonObjectRule = require('./valid-json-object-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('ValidJsonObjectRule', () => {
   let log;

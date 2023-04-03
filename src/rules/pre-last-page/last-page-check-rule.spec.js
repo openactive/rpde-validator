@@ -1,7 +1,7 @@
-import LastPageCheckRule from './last-page-check-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const LastPageCheckRule = require('./last-page-check-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('LastPageCheckRule', () => {
   let log;

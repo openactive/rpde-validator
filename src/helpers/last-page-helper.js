@@ -1,6 +1,6 @@
-import { DateTime } from 'luxon';
+const { DateTime } = require('luxon');
 
-export default class LastPageHelper {
+module.exports = class LastPageHelper {
   static calculateLastPageTimestamp(timestamp) {
     if (
       typeof timestamp === 'number'
@@ -47,4 +47,4 @@ export default class LastPageHelper {
   static calculateLastPageChangeNumber() {
     return Number.MAX_SAFE_INTEGER;
   }
-}
+};

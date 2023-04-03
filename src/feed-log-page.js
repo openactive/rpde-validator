@@ -9,4 +9,4 @@ class FeedLogPage {
   }
 }
 
-export default FeedLogPage;
+module.exports = FeedLogPage;

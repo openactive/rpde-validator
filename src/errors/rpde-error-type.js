@@ -24,6 +24,8 @@ const RpdeErrorType = {
   NO_MODELLING_DATA: 'no_modelling_data',
   HAS_MODELLING_DATA: 'has_modelling_data',
   HTTP_ERROR: 'http_error',
+  MISSING_CACHE_CONTROL: 'missing_cache_control',
+  EXCESSIVE_CACHE_CONTROL: 'excessive_cache_control',
 };
 
-export default Object.freeze(RpdeErrorType);
+module.exports = Object.freeze(RpdeErrorType);

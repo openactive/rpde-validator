@@ -1,6 +1,6 @@
-import defaultRules from './rules';
-import FeedChecker from './feed-checker';
-import FeedPageChecker from './feed-page-checker';
+const defaultRules = require('./rules');
+const FeedChecker = require('./feed-checker');
+const FeedPageChecker = require('./feed-page-checker');
 
 function RpdeValidator(url, options) {
   const loader = new FeedChecker(url, options);
@@ -8,9 +8,6 @@ function RpdeValidator(url, options) {
     .then(() => loader.log);
 }
 
-export {
-  defaultRules,
-  RpdeValidator,
-  FeedPageChecker,
-};
-export default RpdeValidator;
+module.exports.defaultRules = defaultRules;
+module.exports.RpdeValidator = RpdeValidator;
+module.exports.FeedPageChecker = FeedPageChecker;

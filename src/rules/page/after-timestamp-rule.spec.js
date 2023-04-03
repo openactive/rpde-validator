@@ -1,7 +1,7 @@
-import AfterTimestampRule from './after-timestamp-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const AfterTimestampRule = require('./after-timestamp-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('AfterTimestampRule', () => {
   let log;

@@ -1,7 +1,7 @@
-import DuplicateItemsRule from './duplicate-items-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const DuplicateItemsRule = require('./duplicate-items-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('DuplicateItemsRule', () => {
   let log;
@@ -46,7 +46,7 @@ describe('DuplicateItemsRule', () => {
     expect(log.addPageError).not.toHaveBeenCalled();
   });
   it('should raise no error when multiple nodes contain no duplicate items', () => {
-    const json2 = Object.assign({}, json);
+    const json2 = { ...json };
     json2.items = json2.items.slice();
     json.items.splice(0, 1);
     json2.items.splice(1, 1);

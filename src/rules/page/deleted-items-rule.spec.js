@@ -1,7 +1,7 @@
-import DeletedItemsRule from './deleted-items-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const DeletedItemsRule = require('./deleted-items-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('DeletedItemsRule', () => {
   let log;
@@ -43,21 +43,19 @@ describe('DeletedItemsRule', () => {
   it('should raise no error when only one node contains a deleted item', () => {
     const node = new RpdeNode(
       url,
-      Object.assign(
-        {},
-        json,
-        {
-          items: [
-            {
-              data: {},
-              state: 'updated',
-              kind: 'session',
-              id: 'abc120',
-              modified: 1534485464,
-            },
-          ],
-        },
-      ),
+      ({
+
+        ...json,
+        items: [
+          {
+            data: {},
+            state: 'updated',
+            kind: 'session',
+            id: 'abc120',
+            modified: 1534485464,
+          },
+        ],
+      }),
       log,
       1,
       false,
@@ -108,7 +106,7 @@ describe('DeletedItemsRule', () => {
 
     const node2 = new RpdeNode(
       url,
-      Object.assign({}, json, { next: `${url}?afterTimestamp=1534487464` }),
+      ({ ...json, next: `${url}?afterTimestamp=1534487464` }),
       log,
       1,
       false,

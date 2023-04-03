@@ -1,6 +1,6 @@
-import {
+const {
   ValidationError,
-} from '@openactive/data-model-validator';
+} = require('@openactive/data-model-validator');
 
 class RpdeRule {
   constructor() {
@@ -29,20 +29,18 @@ class RpdeRule {
         }
       }
     }
-    const error = Object.assign(
-      {},
-      extra,
-      {
-        rule: this.meta.name,
-        category: rule.category,
-        type: rule.type,
-        severity: rule.severity,
-        message,
-        value: null,
-      },
-    );
+    const error = {
+
+      ...extra,
+      rule: this.meta.name,
+      category: rule.category,
+      type: rule.type,
+      severity: rule.severity,
+      message,
+      value: null,
+    };
     return new ValidationError(error);
   }
 }
 
-export default RpdeRule;
+module.exports = RpdeRule;
