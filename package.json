@@ -4,6 +4,7 @@
   "description": "A library to walk and validate an RPDE feed",
   "homepage": "https://openactive.io",
   "author": "OpenActive Community <hello@openactive.io>",
+  "type": "module",
   "keywords": [
     "openactive",
     "odi",
@@ -39,7 +40,7 @@
     "eslint": "^8.36.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.27.5",
-    "jasmine": "^3.2.0"
+    "jasmine": "^4.6.0"
   },
   "dependencies": {
     "@openactive/data-model-validator": "^2.0.0",
