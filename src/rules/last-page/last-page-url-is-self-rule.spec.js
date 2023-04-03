@@ -1,7 +1,7 @@
-import LastPageUrlIsSelfRule from './last-page-url-is-self-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+import LastPageUrlIsSelfRule from './last-page-url-is-self-rule.js';
+import FeedLog from '../../feed-log.js';
+import RpdeNode from '../../rpde-node.js';
+import RpdeErrorType from '../../errors/rpde-error-type.js';
 
 describe('LastPageUrlIsSelfRule', () => {
   let log;

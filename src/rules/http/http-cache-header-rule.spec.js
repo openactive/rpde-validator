@@ -1,7 +1,7 @@
-import HttpContentTypeRule from './http-content-type-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+import HttpContentTypeRule from './http-content-type-rule.js';
+import FeedLog from '../../feed-log.js';
+import RpdeNode from '../../rpde-node.js';
+import RpdeErrorType from '../../errors/rpde-error-type.js';
 
 describe('HttpContentTypeRule', () => {
   let log;

@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import LastPageHelper from './last-page-helper';
+import LastPageHelper from './last-page-helper.js';
 
 describe('LastPageHelper', () => {
   describe('calculateLastPageTimestamp', () => {

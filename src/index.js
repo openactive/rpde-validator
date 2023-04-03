@@ -1,6 +1,6 @@
-import defaultRules from './rules';
-import FeedChecker from './feed-checker';
-import FeedPageChecker from './feed-page-checker';
+import defaultRules from './rules/index.js';
+import FeedChecker from './feed-checker.js';
+import FeedPageChecker from './feed-page-checker.js';
 
 function RpdeValidator(url, options) {
   const loader = new FeedChecker(url, options);

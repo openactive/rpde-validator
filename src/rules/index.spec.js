@@ -1,4 +1,4 @@
-import Rules from './index';
+import Rules from './index.js';
 
 describe('All Rules', () => {
   it('should have a name that matches their constructor', () => {

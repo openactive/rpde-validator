@@ -1,4 +1,4 @@
-import FeedLogPage from './feed-log-page';
+import FeedLogPage from './feed-log-page.js';
 
 class FeedLog {
   constructor(url) {

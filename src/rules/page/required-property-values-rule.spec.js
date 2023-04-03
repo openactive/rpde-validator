@@ -1,7 +1,7 @@
-import RequiredPropertyValuesRule from './required-property-values-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+import RequiredPropertyValuesRule from './required-property-values-rule.js';
+import FeedLog from '../../feed-log.js';
+import RpdeNode from '../../rpde-node.js';
+import RpdeErrorType from '../../errors/rpde-error-type.js';
 
 describe('RequiredPropertyValuesRule', () => {
   let log;

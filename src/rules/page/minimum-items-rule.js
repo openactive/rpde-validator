@@ -2,8 +2,8 @@ import {
   ValidationErrorCategory,
   ValidationErrorSeverity,
 } from '@openactive/data-model-validator';
-import RpdeRule from '../../rpde-rule';
-import RpdeErrorType from '../../errors/rpde-error-type';
+import RpdeRule from '../../rpde-rule.js';
+import RpdeErrorType from '../../errors/rpde-error-type.js';
 
 const MinimumItemsRule = class extends RpdeRule {
   constructor() {

@@ -4,13 +4,13 @@ import {
   ValidationError,
 } from '@openactive/data-model-validator';
 import { URL } from 'url';
-import FeedLog from './feed-log';
-import RpdeNode from './rpde-node';
-import Rules from './rules';
-import LastPageHelper from './helpers/last-page-helper';
-import UrlHelper from './helpers/url-helper';
-import { version } from './version';
-import RpdeErrorType from './errors/rpde-error-type';
+import FeedLog from './feed-log.js';
+import RpdeNode from './rpde-node.js';
+import Rules from './rules/index.js';
+import LastPageHelper from './helpers/last-page-helper.js';
+import UrlHelper from './helpers/url-helper.js';
+import { version } from './version.js';
+import RpdeErrorType from './errors/rpde-error-type.js';
 
 class FeedChecker {
   constructor(url, options = {}) {

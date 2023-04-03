@@ -1,6 +1,6 @@
-import FeedLog from './feed-log';
-import RpdeNode from './rpde-node';
-import Rules from './rules';
+import FeedLog from './feed-log.js';
+import RpdeNode from './rpde-node.js';
+import Rules from './rules/index.js';
 
 class FeedPageChecker {
   constructor() {

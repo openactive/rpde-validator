@@ -1,7 +1,7 @@
-import NextPageValidRule from './next-page-valid-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+import NextPageValidRule from './next-page-valid-rule.js';
+import FeedLog from '../../feed-log.js';
+import RpdeNode from '../../rpde-node.js';
+import RpdeErrorType from '../../errors/rpde-error-type.js';
 
 describe('NextPageValidRule', () => {
   let log;

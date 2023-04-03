@@ -8,6 +8,7 @@
     "ecmaVersion": 2020
   },
   "rules": {
+    "import/extensions": ["error", "always"],
     "max-len": "off",
     "no-await-in-loop": 0,
     "no-restricted-syntax": 0,

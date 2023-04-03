@@ -3,9 +3,9 @@ import {
   ValidationErrorSeverity,
 } from '@openactive/data-model-validator';
 import jp from 'jsonpath';
-import RpdeRule from '../../rpde-rule';
-import RpdeErrorType from '../../errors/rpde-error-type';
-import UrlHelper from '../../helpers/url-helper';
+import RpdeRule from '../../rpde-rule.js';
+import RpdeErrorType from '../../errors/rpde-error-type.js';
+import UrlHelper from '../../helpers/url-helper.js';
 
 class AfterChangeNumberRule extends RpdeRule {
   constructor() {

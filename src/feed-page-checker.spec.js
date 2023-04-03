@@ -1,5 +1,5 @@
-import FeedPageChecker from './feed-page-checker';
-import RpdeErrorType from './errors/rpde-error-type';
+import FeedPageChecker from './feed-page-checker.js';
+import RpdeErrorType from './errors/rpde-error-type.js';
 
 describe('FeedPageChecker', () => {
   let checker;

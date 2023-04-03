@@ -1,7 +1,7 @@
-import DuplicateItemsRule from './duplicate-items-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+import DuplicateItemsRule from './duplicate-items-rule.js';
+import FeedLog from '../../feed-log.js';
+import RpdeNode from '../../rpde-node.js';
+import RpdeErrorType from '../../errors/rpde-error-type.js';
 
 describe('DuplicateItemsRule', () => {
   let log;

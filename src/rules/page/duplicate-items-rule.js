@@ -3,8 +3,8 @@ import {
   ValidationErrorSeverity,
 } from '@openactive/data-model-validator';
 import jp from 'jsonpath';
-import RpdeRule from '../../rpde-rule';
-import RpdeErrorType from '../../errors/rpde-error-type';
+import RpdeRule from '../../rpde-rule.js';
+import RpdeErrorType from '../../errors/rpde-error-type.js';
 
 const DuplicateItemsRule = class extends RpdeRule {
   constructor() {

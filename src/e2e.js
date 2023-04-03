@@ -1,5 +1,5 @@
 import util from 'util';
-import { RpdeValidator } from './index';
+import { RpdeValidator } from './index.js';
 
 const urls = [
   // 'https://activenewham-openactive.herokuapp.com/',
