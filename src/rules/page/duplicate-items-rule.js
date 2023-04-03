@@ -59,4 +59,4 @@ const DuplicateItemsRule = class extends RpdeRule {
   }
 };
 
-export default DuplicateItemsRule;
+module.exports = DuplicateItemsRule;

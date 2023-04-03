@@ -98,4 +98,4 @@ const HttpCacheHeaderRule = class extends RpdeRule {
   }
 };
 
-export default HttpCacheHeaderRule;
+module.exports = HttpCacheHeaderRule;

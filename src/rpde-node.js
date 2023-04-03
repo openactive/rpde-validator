@@ -11,4 +11,4 @@ class RpdeNode {
   }
 }
 
-export default RpdeNode;
+module.exports = RpdeNode;

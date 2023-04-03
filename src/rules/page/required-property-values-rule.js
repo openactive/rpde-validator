@@ -168,4 +168,4 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
   }
 };
 
-export default RequiredPropertyValuesRule;
+module.exports = RequiredPropertyValuesRule;

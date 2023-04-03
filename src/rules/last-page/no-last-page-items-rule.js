@@ -45,4 +45,4 @@ const NoLastPageItemsRule = class extends RpdeRule {
   }
 };
 
-export default NoLastPageItemsRule;
+module.exports = NoLastPageItemsRule;

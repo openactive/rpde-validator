@@ -45,4 +45,4 @@ const HttpStatusRule = class extends RpdeRule {
   }
 };
 
-export default HttpStatusRule;
+module.exports = HttpStatusRule;

@@ -271,4 +271,4 @@ class AfterTimestampRule extends RpdeRule {
   }
 }
 
-export default AfterTimestampRule;
+module.exports = AfterTimestampRule;

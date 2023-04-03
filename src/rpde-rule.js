@@ -43,4 +43,4 @@ class RpdeRule {
   }
 }
 
-export default RpdeRule;
+module.exports = RpdeRule;

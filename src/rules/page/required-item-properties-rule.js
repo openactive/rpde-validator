@@ -143,4 +143,4 @@ const RequiredItemPropertiesRule = class extends RpdeRule {
   }
 };
 
-export default RequiredItemPropertiesRule;
+module.exports = RequiredItemPropertiesRule;

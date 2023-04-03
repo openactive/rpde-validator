@@ -21,7 +21,7 @@ const ValidJsonObjectRule = require('./http/valid-json-object-rule');
 
 const LastPageCheckRule = require('./pre-last-page/last-page-check-rule');
 
-export default {
+module.exports = {
   page: [
     AfterTimestampRule,
     AfterChangeNumberRule,

@@ -54,4 +54,4 @@ const NextPageValidRule = class extends RpdeRule {
   }
 };
 
-export default NextPageValidRule;
+module.exports = NextPageValidRule;

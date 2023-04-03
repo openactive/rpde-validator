@@ -62,4 +62,4 @@ const ValidJsonObjectRule = class extends RpdeRule {
   }
 };
 
-export default ValidJsonObjectRule;
+module.exports = ValidJsonObjectRule;

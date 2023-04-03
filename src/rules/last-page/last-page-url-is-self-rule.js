@@ -46,4 +46,4 @@ const LastPageUrlIsSelfRule = class extends RpdeRule {
   }
 };
 
-export default LastPageUrlIsSelfRule;
+module.exports = LastPageUrlIsSelfRule;

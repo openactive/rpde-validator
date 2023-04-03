@@ -58,4 +58,4 @@ const NextUrlBasePathMatchCurrentPage = class extends RpdeRule {
   }
 };
 
-export default NextUrlBasePathMatchCurrentPage;
+module.exports = NextUrlBasePathMatchCurrentPage;

@@ -53,4 +53,4 @@ const DeletedItemsRule = class extends RpdeRule {
   }
 };
 
-export default DeletedItemsRule;
+module.exports = DeletedItemsRule;

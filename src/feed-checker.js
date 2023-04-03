@@ -344,4 +344,4 @@ class FeedChecker {
   }
 }
 
-export default FeedChecker;
+module.exports = FeedChecker;

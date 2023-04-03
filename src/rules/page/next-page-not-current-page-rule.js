@@ -60,4 +60,4 @@ const NextPageNotCurrentPageRule = class extends RpdeRule {
   }
 };
 
-export default NextPageNotCurrentPageRule;
+module.exports = NextPageNotCurrentPageRule;

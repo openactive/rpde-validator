@@ -73,4 +73,4 @@ const HttpContentTypeRule = class extends RpdeRule {
   }
 };
 
-export default HttpContentTypeRule;
+module.exports = HttpContentTypeRule;

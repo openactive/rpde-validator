@@ -28,4 +28,4 @@ const RpdeErrorType = {
   EXCESSIVE_CACHE_CONTROL: 'excessive_cache_control',
 };
 
-export default Object.freeze(RpdeErrorType);
+module.exports = Object.freeze(RpdeErrorType);

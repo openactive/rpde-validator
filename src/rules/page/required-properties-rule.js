@@ -84,4 +84,4 @@ const RequiredPropertiesRule = class extends RpdeRule {
   }
 };
 
-export default RequiredPropertiesRule;
+module.exports = RequiredPropertiesRule;

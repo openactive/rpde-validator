@@ -108,4 +108,4 @@ UrlHelper.URL_REGEX = new RegExp('^'
     + '(?:[/?#]\\S*)?'
   + '$', 'i');
 
-export default UrlHelper;
+module.exports = UrlHelper;

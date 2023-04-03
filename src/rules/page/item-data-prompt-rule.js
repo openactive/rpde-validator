@@ -89,4 +89,4 @@ const ItemDataPromptRule = class extends RpdeRule {
   }
 };
 
-export default ItemDataPromptRule;
+module.exports = ItemDataPromptRule;

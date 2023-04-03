@@ -118,4 +118,4 @@ class AfterChangeNumberRule extends RpdeRule {
   }
 }
 
-export default AfterChangeNumberRule;
+module.exports = AfterChangeNumberRule;

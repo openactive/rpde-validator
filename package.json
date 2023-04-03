@@ -23,7 +23,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "genversion --es6 --semi src/version.js",
+    "build": "genversion --semi src/version.js",
     "prepare": "npm run build",
     "lint": "eslint \"src/**/*.js\"",
     "lint-fix": "eslint \"src/**/*.js\" --fix",

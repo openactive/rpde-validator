@@ -73,4 +73,4 @@ const MinimumItemsRule = class extends RpdeRule {
   }
 };
 
-export default MinimumItemsRule;
+module.exports = MinimumItemsRule;

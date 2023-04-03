@@ -30,4 +30,4 @@ class FeedLog {
   }
 }
 
-export default FeedLog;
+module.exports = FeedLog;

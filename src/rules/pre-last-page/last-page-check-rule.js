@@ -82,4 +82,4 @@ class LastPageCheckRule extends RpdeRule {
   }
 }
 
-export default LastPageCheckRule;
+module.exports = LastPageCheckRule;

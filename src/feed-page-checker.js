@@ -86,4 +86,4 @@ class FeedPageChecker {
   }
 }
 
-export default FeedPageChecker;
+module.exports = FeedPageChecker;
