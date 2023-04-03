@@ -9,8 +9,8 @@ const RpdeNode = require('./rpde-node');
 const Rules = require('./rules');
 const LastPageHelper = require('./helpers/last-page-helper');
 const UrlHelper = require('./helpers/url-helper');
-const { version } = require('./version');
 const RpdeErrorType = require('./errors/rpde-error-type');
+const { version } = require('./../package.json');
 
 class FeedChecker {
   constructor(url, options = {}) {

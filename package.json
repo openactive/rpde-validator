@@ -23,8 +23,6 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "genversion --semi src/version.js",
-    "prepare": "npm run build",
     "lint": "eslint \"src/**/*.js\"",
     "lint-fix": "eslint \"src/**/*.js\" --fix",
     "e2e": "node src/e2e.js",
@@ -43,7 +41,6 @@
   },
   "dependencies": {
     "@openactive/data-model-validator": "^2.0.0",
-    "genversion": "^2.1.0",
     "jsonpath": "^1.0.0",
     "luxon": "^1.4.2",
     "node-fetch": "^2.2.0"
