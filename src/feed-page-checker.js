@@ -82,7 +82,7 @@ class FeedPageChecker {
       rule.validate(rawNode);
     }
 
-    return log.pages.flatMap(page => page.errors).filter(error => error.severity === 'failure');
+    return log.pages.flatMap((page) => page.errors).filter((error) => error.severity === 'failure');
   }
 }
 
