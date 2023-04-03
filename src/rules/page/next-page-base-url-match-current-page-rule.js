@@ -1,10 +1,10 @@
-import {
+const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
-} from '@openactive/data-model-validator';
-import RpdeRule from '../../rpde-rule';
-import RpdeErrorType from '../../errors/rpde-error-type';
-import UrlHelper from '../../helpers/url-helper';
+} = require('@openactive/data-model-validator');
+const RpdeRule = require('../../rpde-rule');
+const RpdeErrorType = require('../../errors/rpde-error-type');
+const UrlHelper = require('../../helpers/url-helper');
 
 const NextUrlBasePathMatchCurrentPage = class extends RpdeRule {
   constructor() {

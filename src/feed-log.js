@@ -1,4 +1,4 @@
-import FeedLogPage from './feed-log-page';
+const FeedLogPage = require('./feed-log-page');
 
 class FeedLog {
   constructor(url) {

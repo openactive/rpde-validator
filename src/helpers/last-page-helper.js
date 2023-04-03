@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+const { DateTime } = require('luxon');
 
 export default class LastPageHelper {
   static calculateLastPageTimestamp(timestamp) {

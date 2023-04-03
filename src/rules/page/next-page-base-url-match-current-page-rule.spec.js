@@ -1,7 +1,7 @@
-import NextUrlBasePathMatchCurrentPage from './next-page-base-url-match-current-page-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const NextUrlBasePathMatchCurrentPage = require('./next-page-base-url-match-current-page-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('NextUrlBasePathMatchCurrentPage', () => {
   let log;

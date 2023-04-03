@@ -1,7 +1,7 @@
-import AfterChangeNumberRule from './after-change-number-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const AfterChangeNumberRule = require('./after-change-number-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('AfterChangeNumberRule', () => {
   let log;

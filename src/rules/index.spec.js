@@ -1,4 +1,4 @@
-import Rules from './index';
+const Rules = require('./index');
 
 describe('All Rules', () => {
   it('should have a name that matches their constructor', () => {

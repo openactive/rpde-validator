@@ -1,7 +1,7 @@
-import fetch from 'node-fetch';
-import { URL } from 'url';
+const fetch = require('node-fetch');
+const { URL } = require('url');
 
-import TimeoutError from '../errors/timeout-error';
+const TimeoutError = require('../errors/timeout-error');
 
 class UrlHelper {
   static deriveUrl(url, base) {

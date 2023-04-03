@@ -1,7 +1,7 @@
-import MinimumItemsRule from './minimum-items-rule';
-import FeedLog from '../../feed-log';
-import RpdeNode from '../../rpde-node';
-import RpdeErrorType from '../../errors/rpde-error-type';
+const MinimumItemsRule = require('./minimum-items-rule');
+const FeedLog = require('../../feed-log');
+const RpdeNode = require('../../rpde-node');
+const RpdeErrorType = require('../../errors/rpde-error-type');
 
 describe('MinimumItemsRule', () => {
   let log;

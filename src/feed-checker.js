@@ -1,16 +1,16 @@
-import {
+const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
   ValidationError,
-} from '@openactive/data-model-validator';
-import { URL } from 'url';
-import FeedLog from './feed-log';
-import RpdeNode from './rpde-node';
-import Rules from './rules';
-import LastPageHelper from './helpers/last-page-helper';
-import UrlHelper from './helpers/url-helper';
-import { version } from './version';
-import RpdeErrorType from './errors/rpde-error-type';
+} = require('@openactive/data-model-validator');
+const { URL } = require('url');
+const FeedLog = require('./feed-log');
+const RpdeNode = require('./rpde-node');
+const Rules = require('./rules');
+const LastPageHelper = require('./helpers/last-page-helper');
+const UrlHelper = require('./helpers/url-helper');
+const { version } = require('./version');
+const RpdeErrorType = require('./errors/rpde-error-type');
 
 class FeedChecker {
   constructor(url, options = {}) {

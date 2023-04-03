@@ -1,5 +1,5 @@
-import util from 'util';
-import { RpdeValidator } from './index';
+const util = require('util');
+const { RpdeValidator } = require('./index');
 
 const urls = [
   // 'https://activenewham-openactive.herokuapp.com/',

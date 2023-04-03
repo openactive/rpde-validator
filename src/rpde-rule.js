@@ -1,6 +1,6 @@
-import {
+const {
   ValidationError,
-} from '@openactive/data-model-validator';
+} = require('@openactive/data-model-validator');
 
 class RpdeRule {
   constructor() {

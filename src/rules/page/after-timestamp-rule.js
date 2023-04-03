@@ -1,11 +1,11 @@
-import {
+const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
-} from '@openactive/data-model-validator';
-import jp from 'jsonpath';
-import RpdeRule from '../../rpde-rule';
-import RpdeErrorType from '../../errors/rpde-error-type';
-import UrlHelper from '../../helpers/url-helper';
+} = require('@openactive/data-model-validator');
+const jp = require('jsonpath');
+const RpdeRule = require('../../rpde-rule');
+const RpdeErrorType = require('../../errors/rpde-error-type');
+const UrlHelper = require('../../helpers/url-helper');
 
 class AfterTimestampRule extends RpdeRule {
   constructor() {
