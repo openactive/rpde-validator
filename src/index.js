@@ -8,12 +8,6 @@ function RpdeValidator(url, options) {
     .then(() => loader.log);
 }
 
-// export {
-//   defaultRules,
-//   RpdeValidator,
-//   FeedPageChecker,
-// };
-module.exports = RpdeValidator;
 module.exports.defaultRules = defaultRules;
 module.exports.RpdeValidator = RpdeValidator;
 module.exports.FeedPageChecker = FeedPageChecker;
