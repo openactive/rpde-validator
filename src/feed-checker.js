@@ -297,7 +297,7 @@ class FeedChecker {
           url,
           {
             contentType: res.headers.get('content-type'),
-            cacheControl: res.headers.get('Cache-Control'),
+            cacheControl: res.headers.get('cache-control'),
             status: res.status,
             body,
           },
