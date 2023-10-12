@@ -134,6 +134,8 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
       state: 0,
       kind: 0,
       item: 0,
+      id: 0,
+      data: 0,
     };
 
     if (node.data.items instanceof Array) {
@@ -170,7 +172,7 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
         }
         if (
           typeof item.data !== 'undefined'
-          && typeof item.data !== 'object'
+          && (typeof item.data !== 'object' || item.data instanceof Array)
         ) {
           invalidProps.data += 1;
         }
