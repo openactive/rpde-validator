@@ -64,6 +64,60 @@ describe('RequiredPropertyValuesRule', () => {
     }
   });
 
+  it('should raise an error when the id field is not a string or integer', () => {
+    json.items[0].id = [];
+    const node = new RpdeNode(
+      url,
+      json,
+      log,
+    );
+
+    rule.validate(node);
+
+    expect(log.addPageError).toHaveBeenCalled();
+    expect(log.pages.length).toBe(1);
+    expect(log.pages[0].errors.length).toBe(1);
+    for (const error of log.pages[0].errors) {
+      expect(error.type).toBe(RpdeErrorType.INVALID_FORMAT);
+    }
+  });
+
+  it('should raise an error when the data field is not an object', () => {
+    json.items[0].data = [];
+    const node = new RpdeNode(
+      url,
+      json,
+      log,
+    );
+
+    rule.validate(node);
+
+    expect(log.addPageError).toHaveBeenCalled();
+    expect(log.pages.length).toBe(1);
+    expect(log.pages[0].errors.length).toBe(1);
+    for (const error of log.pages[0].errors) {
+      expect(error.type).toBe(RpdeErrorType.INVALID_FORMAT);
+    }
+  });
+
+  it('should raise an error when the kind field is not a string', () => {
+    json.items[0].kind = 123;
+    const node = new RpdeNode(
+      url,
+      json,
+      log,
+    );
+
+    rule.validate(node);
+
+    expect(log.addPageError).toHaveBeenCalled();
+    expect(log.pages.length).toBe(1);
+    expect(log.pages[0].errors.length).toBe(1);
+    for (const error of log.pages[0].errors) {
+      expect(error.type).toBe(RpdeErrorType.INVALID_FORMAT);
+    }
+  });
+
   it('should raise an error when the items field is not an array', () => {
     json.items = {};
     const node = new RpdeNode(
@@ -82,7 +136,7 @@ describe('RequiredPropertyValuesRule', () => {
     }
   });
 
-  it('should raise an error when there is an item field that is not an object', () => {
+  it('should raise an error when there is an items field that is not an object', () => {
     json.items[0] = 1234;
     const node = new RpdeNode(
       url,
