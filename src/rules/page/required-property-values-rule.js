@@ -13,8 +13,18 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
       description: 'Validates that the feed properties conform to the correct format',
       tests: {
         state: {
-          description: 'Raises a failure if the state property isn\'t one of "updated" or "deleted"',
-          message: 'The [`state` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must be of value "updated" or "deleted", but was found to be different in {{count}} items in the feed.',
+          description: 'Raises a failure if the `state` property isn\'t one of "updated" or "deleted"',
+          message: 'The [`state` property](https://www.openactive.io/realtime-paged-data-exchange/#-state-) must be of value "updated" or "deleted", but was found to be different in {{count}} items in the feed.',
+          sampleValues: {
+            count: 23,
+          },
+          category: ValidationErrorCategory.CONFORMANCE,
+          severity: ValidationErrorSeverity.FAILURE,
+          type: RpdeErrorType.INVALID_FORMAT,
+        },
+        id: {
+          description: 'Raises a failure if the `id` property isn\'t a string or an integer in any item',
+          message: 'The [`id` property](https://www.openactive.io/realtime-paged-data-exchange/#-id-) must be a string, but was found to be different in {{count}} items in the feed.',
           sampleValues: {
             count: 23,
           },
@@ -23,8 +33,18 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
           type: RpdeErrorType.INVALID_FORMAT,
         },
         kind: {
-          description: 'Raises a failure if the kind property isn\'t a string in any item',
-          message: 'The [`kind` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must be a string, but was found to be different in {{count}} items in the feed.',
+          description: 'Raises a failure if the `kind` property isn\'t a string in any item',
+          message: 'The [`kind` property](https://www.openactive.io/realtime-paged-data-exchange/#-kind-) must be a string, but was found to be different in {{count}} items in the feed.',
+          sampleValues: {
+            count: 23,
+          },
+          category: ValidationErrorCategory.CONFORMANCE,
+          severity: ValidationErrorSeverity.FAILURE,
+          type: RpdeErrorType.INVALID_FORMAT,
+        },
+        data: {
+          description: 'Raises a failure if the `data` property isn\'t an object in any item',
+          message: 'The [`data` property](https://www.openactive.io/realtime-paged-data-exchange/#-data-) must be an object, but was found to be different in {{count}} items in the feed.',
           sampleValues: {
             count: 23,
           },
@@ -114,6 +134,8 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
       state: 0,
       kind: 0,
       item: 0,
+      id: 0,
+      data: 0,
     };
 
     if (node.data.items instanceof Array) {
@@ -141,6 +163,18 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
           && typeof item.kind !== 'string'
         ) {
           invalidProps.kind += 1;
+        }
+        if (
+          typeof item.id !== 'undefined'
+          && typeof item.id !== 'string' && typeof item.id !== 'number'
+        ) {
+          invalidProps.id += 1;
+        }
+        if (
+          typeof item.data !== 'undefined'
+          && (typeof item.data !== 'object' || item.data instanceof Array)
+        ) {
+          invalidProps.data += 1;
         }
       }
     }
