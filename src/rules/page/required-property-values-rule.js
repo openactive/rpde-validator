@@ -14,7 +14,7 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
       tests: {
         state: {
           description: 'Raises a failure if the `state` property isn\'t one of "updated" or "deleted"',
-          message: 'The [`state` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must be of value "updated" or "deleted", but was found to be different in {{count}} items in the feed.',
+          message: 'The [`state` property](https://www.openactive.io/realtime-paged-data-exchange/#-state-) must be of value "updated" or "deleted", but was found to be different in {{count}} items in the feed.',
           sampleValues: {
             count: 23,
           },
@@ -24,7 +24,7 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
         },
         id: {
           description: 'Raises a failure if the `id` property isn\'t a string or an integer in any item',
-          message: 'The [`id` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must be a string, but was found to be different in {{count}} items in the feed.',
+          message: 'The [`id` property](https://www.openactive.io/realtime-paged-data-exchange/#-id-) must be a string, but was found to be different in {{count}} items in the feed.',
           sampleValues: {
             count: 23,
           },
@@ -34,7 +34,7 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
         },
         kind: {
           description: 'Raises a failure if the `kind` property isn\'t a string in any item',
-          message: 'The [`kind` property](https://www.openactive.io/realtime-paged-data-exchange/#-item-) must be a string, but was found to be different in {{count}} items in the feed.',
+          message: 'The [`kind` property](https://www.openactive.io/realtime-paged-data-exchange/#-kind-) must be a string, but was found to be different in {{count}} items in the feed.',
           sampleValues: {
             count: 23,
           },
