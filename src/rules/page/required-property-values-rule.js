@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
@@ -141,8 +142,7 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
     if (node.data.items instanceof Array) {
       for (const item of node.data.items) {
         if (
-          typeof item !== 'object'
-          || item instanceof Array
+          !_.isPlainObject(item)
         ) {
           invalidProps.item += 1;
         }
@@ -172,7 +172,7 @@ const RequiredPropertyValuesRule = class extends RpdeRule {
         }
         if (
           typeof item.data !== 'undefined'
-          && (typeof item.data !== 'object' || item.data instanceof Array)
+          && !_.isPlainObject(item.data)
         ) {
           invalidProps.data += 1;
         }
