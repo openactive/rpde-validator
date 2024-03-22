@@ -42,7 +42,6 @@
   "dependencies": {
     "@openactive/data-model-validator": "^2.0.0",
     "cache-parser": "^1.2.4",
-    "jsonpath": "^1.1.1",
     "lodash": "^4.17.21",
     "luxon": "^1.4.2",
     "node-fetch": "^2.2.0"

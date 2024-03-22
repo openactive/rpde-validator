@@ -2,7 +2,7 @@ const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
 } = require('@openactive/data-model-validator');
-const jp = require('jsonpath');
+const _ = require('lodash');
 const RpdeRule = require('../../rpde-rule');
 const RpdeErrorType = require('../../errors/rpde-error-type');
 const UrlHelper = require('../../helpers/url-helper');
@@ -93,15 +93,15 @@ class AfterTimestampRule extends RpdeRule {
     const afterTimestamp = UrlHelper.getParam('afterTimestamp', node.data.next, node.url);
     const afterId = UrlHelper.getParam('afterId', node.data.next, node.url);
     if (afterTimestamp !== null) {
-      const modified = jp.query(node.data, '$.items[0].modified');
+      const modified = _.get(node.data, 'items[0].modified');
       if (modified.length !== 0) {
         if (
-          typeof modified[0] === 'number'
-          || modified[0].match(/^[1-9][0-9]*$/)
+          typeof modified === 'number'
+          || modified.match(/^[1-9][0-9]*$/)
         ) {
           if (
-            typeof modified[0] === 'string'
-            && modified[0].match(/^[1-9][0-9]*$/)
+            typeof modified === 'string'
+            && modified.match(/^[1-9][0-9]*$/)
           ) {
             node.log.addPageError(
               node.url,
@@ -187,7 +187,7 @@ class AfterTimestampRule extends RpdeRule {
 
       // Do we have a last item that matches afterId and afterTimestamp?
       if (node.data.items.length > 0) {
-        const lastItem = jp.query(node.data, `$.items[${node.data.items.length - 1}]`)[0];
+        const lastItem = _.get(node.data, `items[${node.data.items.length - 1}]`);
         const lastItemModified = lastItem.modified;
         const lastItemId = lastItem.id;
         const lastItemCompare = {

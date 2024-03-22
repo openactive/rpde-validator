@@ -2,7 +2,7 @@ const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
 } = require('@openactive/data-model-validator');
-const jp = require('jsonpath');
+const _ = require('lodash');
 const RpdeRule = require('../../rpde-rule');
 const RpdeErrorType = require('../../errors/rpde-error-type');
 
@@ -34,7 +34,7 @@ const DuplicateItemsRule = class extends RpdeRule {
     if (typeof node.data !== 'object' || node.isItemDuplicationPermissible) {
       return;
     }
-    const ids = jp.query(node.data, '$.items[*].id');
+    const ids = (_.isArray(node.data.items) && node.data.items.map((item) => item.id)) || [];
     for (const id of ids) {
       if (this.itemMap.indexOf(id) >= 0) {
         node.log.addPageError(

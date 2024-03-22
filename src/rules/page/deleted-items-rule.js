@@ -2,7 +2,7 @@ const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
 } = require('@openactive/data-model-validator');
-const jp = require('jsonpath');
+const _ = require('lodash');
 const RpdeRule = require('../../rpde-rule');
 const RpdeErrorType = require('../../errors/rpde-error-type');
 
@@ -30,8 +30,8 @@ const DeletedItemsRule = class extends RpdeRule {
       return;
     }
     if (!this.deletedItemsFound) {
-      const deleted = jp.query(node.data, '$..items[?(@.state=="deleted")]');
-      if (deleted.length > 0) {
+      const hasDeleted = _.isArray(node.data.items) && node.data.items.some((item) => item.state === 'deleted');
+      if (hasDeleted) {
         this.deletedItemsFound = true;
       }
     }
