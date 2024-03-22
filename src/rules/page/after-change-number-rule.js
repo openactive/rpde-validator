@@ -2,7 +2,7 @@ const {
   ValidationErrorCategory,
   ValidationErrorSeverity,
 } = require('@openactive/data-model-validator');
-const jp = require('jsonpath');
+const _ = require('lodash');
 const RpdeRule = require('../../rpde-rule');
 const RpdeErrorType = require('../../errors/rpde-error-type');
 const UrlHelper = require('../../helpers/url-helper');
@@ -53,12 +53,9 @@ class AfterChangeNumberRule extends RpdeRule {
     const lastChangeNumber = UrlHelper.getParam('afterChangeNumber', node.url) || this.lastChangeNumber;
     const afterChangeNumber = UrlHelper.getParam('afterChangeNumber', node.data.next, node.url);
     if (afterChangeNumber !== null) {
-      const modified = jp.query(node.data, '$.items[0].modified');
+      const modified = _.get(node.data, 'items[0].modified');
       if (
-        modified.length === 0
-        || (
-          typeof modified[0] !== 'number'
-          && !modified[0].match(/^[1-9][0-9]*$/)
+        _.isNil(modified) || (typeof modified !== 'number' && !modified.match(/^[1-9][0-9]*$/)
         )
       ) {
         node.log.addPageError(
