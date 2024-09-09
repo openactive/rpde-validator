@@ -94,10 +94,10 @@ class AfterTimestampRule extends RpdeRule {
     const afterId = UrlHelper.getParam('afterId', node.data.next, node.url);
     if (afterTimestamp !== null) {
       const modified = _.get(node.data, 'items[0].modified');
-      if (modified.length !== 0) {
+      if (modified !== undefined && modified !== null && modified.length !== 0) {
         if (
           typeof modified === 'number'
-          || modified.match(/^[1-9][0-9]*$/)
+          || (typeof modified === 'string' && modified.match(/^[1-9][0-9]*$/))
         ) {
           if (
             typeof modified === 'string'
@@ -114,7 +114,7 @@ class AfterTimestampRule extends RpdeRule {
               ),
             );
           }
-          if (!afterTimestamp.match(/^[1-9][0-9]*$/)) {
+          if (typeof afterTimestamp === 'string' && !afterTimestamp.match(/^[1-9][0-9]*$/)) {
             node.log.addPageError(
               node.url,
               this.createError(
@@ -137,7 +137,7 @@ class AfterTimestampRule extends RpdeRule {
               },
             ),
           );
-          if (!afterTimestamp.match(/^[1-9][0-9]*$/)) {
+          if (typeof afterTimestamp === 'string' && !afterTimestamp.match(/^[1-9][0-9]*$/)) {
             node.log.addPageError(
               node.url,
               this.createError(
@@ -150,7 +150,7 @@ class AfterTimestampRule extends RpdeRule {
             );
           }
         }
-      } else if (!afterTimestamp.match(/^[1-9][0-9]*$/)) {
+      } else if (typeof afterTimestamp === 'string' && !afterTimestamp.match(/^[1-9][0-9]*$/)) {
         node.log.addPageError(
           node.url,
           this.createError(
@@ -186,40 +186,42 @@ class AfterTimestampRule extends RpdeRule {
       }
 
       // Do we have a last item that matches afterId and afterTimestamp?
-      if (node.data.items.length > 0) {
+      if (node.data.items && node.data.items.length > 0) {
         const lastItem = _.get(node.data, `items[${node.data.items.length - 1}]`);
-        const lastItemModified = lastItem.modified;
-        const lastItemId = lastItem.id;
-        const lastItemCompare = {
-          afterTimestamp,
-          lastItemModified,
-          afterIdValue,
-          lastItemId,
-        };
-        for (const key in lastItemCompare) {
-          if (Object.prototype.hasOwnProperty.call(lastItemCompare, key)) {
-            if (
-              typeof lastItemCompare[key] === 'string'
-              && lastItemCompare[key].match(/^[1-9][0-9]*$/)
-            ) {
-              lastItemCompare[key] *= 1;
+        if (lastItem) {
+          const lastItemModified = lastItem.modified;
+          const lastItemId = lastItem.id;
+          const lastItemCompare = {
+            afterTimestamp,
+            lastItemModified,
+            afterIdValue,
+            lastItemId,
+          };
+          for (const key in lastItemCompare) {
+            if (Object.prototype.hasOwnProperty.call(lastItemCompare, key)) {
+              if (
+                typeof lastItemCompare[key] === 'string'
+                && lastItemCompare[key].match(/^[1-9][0-9]*$/)
+              ) {
+                lastItemCompare[key] *= 1;
+              }
             }
           }
-        }
-        if (
-          lastItemCompare.lastItemId !== lastItemCompare.afterIdValue
-          || lastItemCompare.lastItemModified !== lastItemCompare.afterTimestamp
-        ) {
-          node.log.addPageError(
-            node.url,
-            this.createError(
-              'lastItemMatch',
-              {
-                value: node.data,
-                url: node.url,
-              },
-            ),
-          );
+          if (
+            lastItemCompare.lastItemId !== lastItemCompare.afterIdValue
+            || lastItemCompare.lastItemModified !== lastItemCompare.afterTimestamp
+          ) {
+            node.log.addPageError(
+              node.url,
+              this.createError(
+                'lastItemMatch',
+                {
+                  value: node.data,
+                  url: node.url,
+                },
+              ),
+            );
+          }
         }
       }
 
