@@ -12,7 +12,8 @@
   ],
   "main": "src/index.js",
   "engines": {
-    "node": "14.16.0"
+    "node": ">=18.17.1",
+    "npm": ">=9.6.7"
   },
   "repository": {
     "type": "git",
@@ -34,10 +35,11 @@
     "publish-patch": "npm test && git pull && git push && npm version patch && npm publish"
   },
   "devDependencies": {
-    "eslint": "^8.36.0",
+    "eslint": "^8.47.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.27.5",
-    "jasmine": "^4.6.0"
+    "jasmine": "^4.6.0",
+    "typescript": "^5.1.6"
   },
   "dependencies": {
     "@openactive/data-model-validator": "^2.0.0",
