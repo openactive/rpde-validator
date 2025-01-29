@@ -1,6 +1,6 @@
 {
   "name": "@openactive/rpde-validator",
-  "version": "2.0.21",
+  "version": "3.0.0",
   "description": "A library to walk and validate an RPDE feed",
   "homepage": "https://openactive.io",
   "author": "OpenActive Community <hello@openactive.io>",
@@ -42,7 +42,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@openactive/data-model-validator": "^2.0.0",
+    "@openactive/data-model-validator": "^3.0.0",
     "cache-parser": "^1.2.4",
     "lodash": "^4.17.21",
     "luxon": "^1.4.2",
