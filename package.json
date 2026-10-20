@@ -1,6 +1,6 @@
 {
   "name": "@openactive/rpde-validator",
-  "version": "3.0.3570",
+  "version": "3.0.3571",
   "description": "A library to walk and validate an RPDE feed",
   "homepage": "https://openactive.io",
   "author": "OpenActive Community <hello@openactive.io>",
@@ -31,8 +31,7 @@
     "test": "npm run test-no-lint",
     "test-no-lint": "jasmine",
     "test-debug": "node --inspect-brk -i ./node_modules/jasmine/bin/jasmine.js",
-    "postpublish": "git push",
-    "publish-patch": "npm test && git pull && git push && npm version patch && npm publish"
+    "publish-patch": "npm test && git pull && npm version patch && git push && npm publish"
   },
   "devDependencies": {
     "eslint": "^8.47.0",
